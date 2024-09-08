@@ -1,8 +1,9 @@
 import express from "express";
 import { mainRouter } from "./src/routes/mainRouter";
+import { serverPort } from "./src/config/dotenv";
 
 const app=express();
-const port=3000;
+const port=serverPort;
 
 app.use("/api/v1", mainRouter)
 
