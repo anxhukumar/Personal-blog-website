@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { mailingList } from "./mailingList";
-import { admin } from "./amdin";
-import { life } from "./life";
-import { tech } from "./tech";
+import { mailingList } from "./mailingList.js";
+import { admin } from "./admin.js";
+import { life } from "./life.js";
+import { tech } from "./tech.js";
 
 export const mainRouter=Router();
 
