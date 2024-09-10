@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { db } from "../config/db.js";
 
 const mailingListSchema=new mongoose.Schema({
@@ -5,10 +6,6 @@ const mailingListSchema=new mongoose.Schema({
         type: String,
         required: true,
         unique: true
-    },
-    name: {
-        type: String,
-        required: true
     },
     subscribed: {
         type: Boolean,
