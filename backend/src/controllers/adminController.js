@@ -1,7 +1,6 @@
 import { adminData } from "../models/adminModel.js";
-import { createHash, compareHash } from "../middlewares/hash.js";
+import { createHash } from "../config/hash.js";
 import {z} from "zod";
-
 
 const zodSchema=z.object({
     firstName:z.string().min(1, "First name is required"),
@@ -28,19 +27,5 @@ export const adminRegister = async (req, res) => {
         res.json({msg: "user registered successfully!"});
     }else{
         res.json({msg: "Invalid input."})
-    }
-}
-
-export const adminLogin = async (req, res) => {
-    const signInData=req.body;
-    const userName=signInData.userName;
-    try{const userData = await adminData.findOne({
-        userName: userName
-    });
-    const isCorrect = await compareHash(signInData.password, userData.password) 
-    //now if isCorrect is true return jwt and enable login or if wrong give error message
-    
-    }catch(err){
-        res.json({msg:"Invalid Username!"})
     }
 }

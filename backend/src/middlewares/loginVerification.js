@@ -1,0 +1,45 @@
+import { adminData } from "../models/adminModel.js";
+import { compareHash } from "../config/hash.js";
+import { jwtToken, jwtVerify } from "../config/jwtLogin.js";
+
+
+
+export const adminLogin = async (req, res) => {
+    const signInData=req.body;
+    const userName=signInData.userName;
+    try{const userData = await adminData.findOne({
+        userName: userName
+    });
+    const isCorrect = await compareHash(signInData.password, userData.password) 
+    
+    if (isCorrect) {
+        const token=jwtToken(userName);
+        res.json({token}); //this token needs to be saved on the client-side
+    }else {
+        res.json({msg:"Invalid password"})
+    }
+    }catch(err){
+        res.json({msg:"Invalid username"})
+    }
+}
+
+export const checkIfLoggedIn = async (req, res, next) => {
+    const authData=req.headers.authorization; //get token from client side if it exists
+    const token=authData.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({msg: "Unauthorized access, try login or sign up"});
+    }
+    try{
+        const userNameFromJwt=jwtVerify(token);
+        const ifExists = await adminData.exists({
+        userName:userNameFromJwt
+        });
+        if (ifExists) {
+            next();
+        }else{
+            return res.status(401).json({msg: "Unauthorized access, try login or sign up"});
+        }
+    }catch(err) {
+        return res.status(401).json({msg: "Unauthorized access, try login or sign up"});
+    }
+}

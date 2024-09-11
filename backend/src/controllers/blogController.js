@@ -20,3 +20,22 @@ export const getBlogById = async(req, res) => {
     const response= await blogData.findById(id);
     res.json(response);
 }
+
+export const updateBlog = async (req, res) => {
+    const blog=req.body;
+    const id=blog.id;
+    await blogData.updateOne({
+        id:id
+    },(
+        blog
+    ))
+    res.json({msg:"Blog updated successfully"});
+}
+
+export const deleteBlog = async (req, res) => {
+    const id=req.id;
+    await blogData.deleteOne({
+        id: id
+    });
+    res.json ({msg: "Blog deleted successfully"})
+}
