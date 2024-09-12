@@ -23,9 +23,9 @@ export const getBlogById = async(req, res) => {
 
 export const updateBlog = async (req, res) => {
     const blog=req.body;
-    const id=blog.id;
+    const id=blog._id;
     await blogData.updateOne({
-        id:id
+        _id:id
     },(
         blog
     ))
@@ -33,9 +33,9 @@ export const updateBlog = async (req, res) => {
 }
 
 export const deleteBlog = async (req, res) => {
-    const id=req.id;
+    const id=req.body._id;
     await blogData.deleteOne({
-        id: id
+        _id: id
     });
     res.json ({msg: "Blog deleted successfully"})
 }
