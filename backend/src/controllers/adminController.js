@@ -1,5 +1,6 @@
 import { adminData } from "../models/adminModel.js";
 import { createHash } from "../config/hash.js";
+import { newAdminKey } from "../config/dotenv.js";
 import {z} from "zod";
 
 const zodSchema=z.object({
@@ -9,14 +10,20 @@ const zodSchema=z.object({
     password:z.string()
         .min(8, "Password must be at least 8 characters long")
         .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[^\s]+$/, {
-            message: "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and no spaces",
-        })
+            msg: "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and no spaces",
+        }),
+    secretKey:z.string()
 });
 
 export const adminRegister = async (req, res) => {
+    try{
     const signUpData=req.body;
+    const secretKey=req.body.secretKey;
     let response=zodSchema.safeParse(signUpData);
     if (response.success) {
+        if (secretKey!=newAdminKey) {
+            return res.status(400).json({msg: "Wrong secret key"})
+        }
         const {password, ...rest} = signUpData;
         //Hashing the password with 10 salt rounds
         const hashedPassword= await createHash(password);
@@ -24,8 +31,11 @@ export const adminRegister = async (req, res) => {
             ...rest,
             password: hashedPassword
         });
-        res.json({msg: "user registered successfully!"});
+        res.json({msg: "user registered successfully"});
     }else{
-        res.json({msg: "Invalid input."})
+        res.json({msg: "Invalid input"})
+    }
+    }catch(err) {
+        res.status(500).json({error: "An error occurred while registering."});
     }
 }

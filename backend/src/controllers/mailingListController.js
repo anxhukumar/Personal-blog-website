@@ -6,12 +6,16 @@ const zodSchema=z.object({
 });
 
 export const postEmail = async(req, res) => {
+    try{
     const email=req.body;
     let response=zodSchema.safeParse(email);
     if (response.success) {
         await mailingListData.create(email);
         res.json({msg: "email posted successfully!"});
     }else{
-        res.json({msg: "Invalid input."})
+        res.status(400).json({msg: "Invalid input."})
+    }
+    }catch(err) {
+        res.status(500).json({error: "An error occurred while posting email."});
     }
 }

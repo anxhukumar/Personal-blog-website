@@ -5,6 +5,7 @@ import { jwtToken, jwtVerify } from "../config/jwtLogin.js";
 
 
 export const adminLogin = async (req, res) => {
+    try{
     const signInData=req.body;
     const userName=signInData.userName;
     try{const userData = await adminData.findOne({
@@ -21,9 +22,13 @@ export const adminLogin = async (req, res) => {
     }catch(err){
         res.json({msg:"Invalid username"})
     }
+    }catch(err) {
+        res.status(500).json({error: "An error occurred while logging in."});
+    }
 }
 
 export const checkIfLoggedIn = async (req, res, next) => {
+    try{
     const authData=req.headers.authorization; //get token from client side if it exists
     const token=authData.split(' ')[1];
     if (!token) {
@@ -42,4 +47,5 @@ export const checkIfLoggedIn = async (req, res, next) => {
     }catch(err) {
         return res.status(401).json({msg: "Unauthorized access, try login or sign up"});
     }
+    }catch(err) ({error: "An error occured while fethching jwt data."})
 }

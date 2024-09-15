@@ -14,22 +14,12 @@ const blogSchema = new mongoose.Schema({
       type: String,
       required: true, 
     },
-    author: {
-      type: String,
-      required: true, 
-    },
     imageURL: {
       type: String,
     },
     datePublished: {
-      type: String,
-      default: function () {
-        const date = new Date();
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = date.toLocaleString('default', { month: 'short' }).toUpperCase(); 
-        const year = date.getFullYear();
-        return `${day} ${month} ${year}`;
-      }, 
+      type: Date,
+      default: Date.now
     },
     tags: [String], 
     isPublished: {
