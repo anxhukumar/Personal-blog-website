@@ -1,0 +1,43 @@
+mern-project/
+├── backend/
+│   ├── controllers/            # Handles requests and contains business logic (e.g., `userController.js`)
+│   ├── models/                 # Contains Mongoose models (e.g., `userModel.js`)
+│   ├── routes/                 # API routes (e.g., `userRoutes.js`)
+│   ├── middlewares/            # Custom middlewares (e.g., `authMiddleware.js`)
+│   ├── utils/                  # Utility functions (e.g., `generateToken.js`)
+│   ├── config/                 # Configuration files (e.g., `db.js`, `dotenv.js`)
+│   ├── validators/             # Input validation logic (e.g., `userValidator.js`)
+│   ├── .env                    # Environment variables
+│   ├── server.js               # Entry point for the backend server
+│   └── package.json            # Backend dependencies and scripts
+│
+├── frontend/
+│   ├── public/                 # Static files (e.g., `index.html`, `favicon.ico`)
+│   ├── src/
+│   │   ├── components/         # React components (e.g., `Header.js`, `Footer.js`)
+│   │   ├── pages/              # React pages (e.g., `HomePage.js`, `LoginPage.js`)
+│   │   ├── hooks/              # Custom React hooks (e.g., `useAuth.js`)
+│   │   ├── context/            # React context (e.g., `AuthContext.js`)
+│   │   ├── App.js              # Main React component
+│   │   ├── index.js            # Entry point for React application
+│   │   ├── App.css             # Global CSS styles
+│   │   └── index.css           # Main stylesheet entry
+│   ├── .env                    # Environment variables for the frontend
+│   └── package.json            # Frontend dependencies and scripts
+│
+├── .gitignore                  # Files and directories to be ignored by Git
+├── README.md                   # Documentation for the project
+├── package.json                # Root dependencies and scripts
+└── package-lock.json           # Locks down dependency versions
+
+
+
+
+
+
+
+
+
+
+
+//things left in backend is just the jwt cookie issue to secure the tokens on the client side
