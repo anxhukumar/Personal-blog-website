@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import MainHeader from '../components/Header/MainHeader'
 import { GradientBtn, HomeBlogSnippet, MessageForm, SearchBar } from '../components'
 import { useSelector } from 'react-redux'
 
@@ -10,13 +9,12 @@ function Home() {
 
   return (
     <>
-        <MainHeader />
         <div className='flex min-h-screen mt-10 mx-32'>
             <div className='flex flex-col gap-10 min-w-80 h-3/4'>
                 <SearchBar />
                 
                 <div className='flex flex-col gap-1'>
-                    <span className={`transition duration-700   ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
+                    <span className={`transition duration-700 ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
                     <ol className='text-white'>
                         <li>
                             <span className='inline-block hover:underline cursor-pointer'>Dummy topic</span>

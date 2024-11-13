@@ -5,5 +5,7 @@ import SearchBar from "./SearchBar";
 import GradientBtn from "./Buttons/GradientBtn";
 import MessageForm from "./MessageForm";
 import HomeBlogSnippet from "./HomeBlogSnippet";
+import FixedModeSwitch from "./FixedModeSwitch";
+import MainHeader from "./Header/MainHeader";
 
-export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet}
+export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader}
