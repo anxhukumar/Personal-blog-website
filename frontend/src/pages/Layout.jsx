@@ -4,10 +4,10 @@ import {MainHeader} from "../components"
 
 function Layout() {
   return (
-   <>
+   <div className='bg-[#1E1F23]'>
     <MainHeader />
     <Outlet />
-   </>
+   </div>
   )
 }
 

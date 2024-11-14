@@ -7,5 +7,8 @@ import MessageForm from "./MessageForm";
 import HomeBlogSnippet from "./HomeBlogSnippet";
 import FixedModeSwitch from "./FixedModeSwitch";
 import MainHeader from "./Header/MainHeader";
+import AdminHeader from "./Admin components/AdminHeader";
+import AdminSolidBtn from "./Admin components/AdminSolidBtn";
+import AdminInputBox from "./Admin components/AdminInputBox";
 
-export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader}
+export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader, AdminHeader, AdminSolidBtn, AdminInputBox}
