@@ -11,7 +11,7 @@ function Login() {
             <div className='mx-10'>
                 <AdminInputBox placeholder="Username" />
                 <AdminInputBox placeholder="Password" />
-                <AdminSolidBtn label="Log in" className="w-60 rounded-lg mb-10" />
+                <AdminSolidBtn label="Log in" className="w-60 rounded-lg mb-10 hover:bg-gray-900" />
                 <Link  to='/admin/signup'>
                   <span className='text-[#D4D4D8] cursor-pointer mx-3.5 hover:underline'>Want to create an account?</span>
                 </Link> 

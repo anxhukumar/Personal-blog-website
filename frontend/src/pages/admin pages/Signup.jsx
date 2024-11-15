@@ -14,7 +14,7 @@ function Signup() {
               <AdminInputBox placeholder="Username" />
               <AdminInputBox placeholder="Password" />
               <AdminInputBox placeholder="Secret key" />
-              <AdminSolidBtn label="Create an account" className="w-60 rounded-lg mb-10" />
+              <AdminSolidBtn label="Create an account" className="w-60 rounded-lg mb-10 hover:bg-gray-900" />
               <Link to='/admin/login'>
                 <span className='text-[#D4D4D8] cursor-pointer mx-5 hover:underline'>Already have an account?</span>
               </Link> 

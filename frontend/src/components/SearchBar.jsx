@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import React from 'react'
 
-function SearchBar() {
+function SearchBar({className}) {
   return (
     <div className="relative">
         <FontAwesomeIcon
@@ -12,7 +12,7 @@ function SearchBar() {
         <input
         type="text"
         placeholder="Search..."
-        className="h-10 pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-gray-400"
+        className={`h-10 pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-gray-400 ${className}`}
         />
     </div>
   )
