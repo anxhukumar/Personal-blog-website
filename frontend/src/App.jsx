@@ -6,6 +6,7 @@ import AdminLayout from "./pages/admin pages/AdminLayout"
 import Login from "./pages/admin pages/Login"
 import Signup from "./pages/admin pages/Signup"
 import AdminHome from "./pages/admin pages/AdminHome"
+import Messages from "./pages/admin pages/Messages"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path='admin' element={<AdminHome />} />
           <Route path='admin/login' element={<Login />} />
           <Route path='admin/signup' element={<Signup />} />
+          <Route path='admin/messages' element={<Messages />} />
         </Route>
       </>  
     )

@@ -7,6 +7,7 @@ import { AdminDropdown, SearchBar } from '../../components'
 function AdminHome() {
 
   const [toggleSidebar, setToggleSidebar] = useState(true)
+  const [blogCategory, setBlogCategory] = useState("TECH")
 
   return (
   <div className='flex min-h-screen mt-10 mx-32'>
@@ -22,46 +23,46 @@ function AdminHome() {
         
         <FontAwesomeIcon icon={faSquareXmark} style={{color: "#000000",}} onClick={() => setToggleSidebar(false)} className='size-10 ml-0.5 mt-1 mb-3' />
         
-        <div className='ml-14 mb-7'>
+        <div className='ml-14 mb-4'>
           <SearchBar className="w-96"/>
-          <AdminDropdown className='mt-4 ' />
+          <AdminDropdown className='mt-4' menuClassName='absolute' option1="TECH" option2="LIFE" oneOnClick={() => setBlogCategory("TECH")} twoOnClick={() => setBlogCategory("LIFE")} label={blogCategory=="TECH" ? "TECH" : "LIFE"}  />
         </div>
         <div className='h-[500px] overflow-y-auto custom-scrollbar flex flex-col gap-2'>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
-        <h3 className='text-white text-md ml-20'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+        <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
       </div>
     </div>
       ):(
@@ -71,10 +72,7 @@ function AdminHome() {
       {/* TEXT EDITOR CONTAINER */}
       <div className='absolute left-96 flex flex-col gap-5 w-2/3 z-0'>
         {/* The text editor will come inside this div */}
-        <input type='text' placeholder='dummy' className='h-32 bg-[#D4D4D8]' />
-        <input type='text' placeholder='dummy' className='h-32 bg-[#D4D4D8]' />
-        <input type='text' placeholder='dummy' className='h-32 bg-[#D4D4D8]' />
-        <input type='text' placeholder='dummy' className='h-32 bg-[#D4D4D8]' />
+        
       </div>
     </div>
    </div>

@@ -1,6 +1,8 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleChevronDown, faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react'
 
-function AdminDropdown({className }) {
+function AdminDropdown({className, menuClassName, label, oneOnClick, twoOnClick, option1, option2}) {
  
   const [isOpen, setIsOpen] = useState(false)
 
@@ -12,23 +14,27 @@ function AdminDropdown({className }) {
     <div className={`${className}`}>
       <button 
         onClick={toggleDropdown} 
-        className="text-[#D4D4D8] bg-black hover:bg-black active:scale-95 transition-transform duration-75 font-bold rounded-full text-sm px-5 py-2.5 text-center inline-flex items-center h-9" 
+        className="w-28 text-[#D4D4D8] bg-black hover:bg-black active:scale-95 transition-transform duration-75 font-bold rounded-md text-sm px-5 py-2.5 text-center inline-flex items-center h-9 gap-3" 
         type="button"
       >
-        CATEGORY 
-        <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/sv" fill="none" viewBox="0 0 10 6">
-          <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-        </svg>
+        <div className='w-20'>
+          {label}
+        </div>
+        {isOpen ? (<FontAwesomeIcon icon={faCircleChevronUp} style={{color: "#ffffff",}} beat />
+      ) : (
+        <FontAwesomeIcon icon={faCircleChevronDown} style={{color: "#ffffff",}} />
+      )}
+        
       </button>
 
       
-      <div id="dropdown" className={`z-10 ${isOpen ? '' : 'hidden'} bg-black/80 rounded-lg shadow w-32`}>
+      <div id="dropdown" className={`${menuClassName} z-50 ${isOpen ? '' : 'hidden'} bg-black/95 rounded-lg shadow w-32`}>
         <ul className="py-2 text-sm">
-          <li className="h-9 flex items-center justify-center font-bold text-[#D4D4D8] hover:outline hover:outline-1 hover:outline-white cursor-pointer transition-all duration-150">
-            Dashboard
+          <li className={`h-9 flex items-center justify-center font-bold text-[#D4D4D8] hover:outline hover:outline-1 hover:outline-white cursor-pointer transition-all duration-150`} onClick={oneOnClick}>
+            {option1}
           </li>
-          <li className="h-9 flex items-center justify-center font-bold text-[#D4D4D8] hover:outline hover:outline-1 hover:outline-white cursor-pointer transition-all duration-150">
-            Settings
+          <li className={`h-9 flex items-center justify-center font-bold text-[#D4D4D8] hover:outline hover:outline-1 hover:outline-white cursor-pointer transition-all duration-150`} onClick={twoOnClick}>
+            {option2}  
           </li>
         </ul>
       </div>
