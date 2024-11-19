@@ -11,5 +11,7 @@ import AdminHeader from "./Admin components/AdminHeader";
 import AdminSolidBtn from "./Admin components/AdminSolidBtn";
 import AdminInputBox from "./Admin components/AdminInputBox";
 import AdminDropdown from "./Admin components/AdminDropdown";
+import QuillTextEditor from "./Admin components/QuillTextEditor";
+import MainTextEditor from "./Admin components/MainTextEditor";
 
-export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader, AdminHeader, AdminSolidBtn, AdminInputBox, AdminDropdown}
+export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader, AdminHeader, AdminSolidBtn, AdminInputBox, AdminDropdown, QuillTextEditor, MainTextEditor}

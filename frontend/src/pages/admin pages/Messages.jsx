@@ -1,8 +1,7 @@
 import React from 'react'
-import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
-import { AdminDropdown, SearchBar } from '../../components'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { AdminDropdown} from '../../components'
 
 function Messages() {
   return (
@@ -19,7 +18,24 @@ function Messages() {
                 </div>
                 
                 <div className='h-[500px] overflow-y-auto custom-scrollbar flex flex-col gap-2'>
-                    <h3 className='text-white text-md ml-14'>dummy listdummy listdummy listdummy list</h3>
+                    <ol className='flex flex-col gap-2'>
+                        <li className='text-white text-md ml-14 mb-1'>
+                            <div className='flex justify-between'>
+                                <span className='hover:underline cursor-pointer w-fit'>
+                                    dummy message 1
+                                </span>
+                                <FontAwesomeIcon  icon={faTrash} className='text-red-800 mr-2 mt-1 hover:scale-125' />    
+                            </div>
+                        </li>
+                        <li className='text-white text-md ml-14 mb-1'>
+                            <div className='flex justify-between'>
+                                <span className='hover:underline cursor-pointer w-fit'>
+                                    dummy message 1
+                                </span>
+                                <FontAwesomeIcon icon={faTrash} className='text-red-800 mr-2 mt-1 hover:scale-125' />    
+                            </div>
+                        </li>
+                    </ol>   
                 </div>
             </div>  
             
