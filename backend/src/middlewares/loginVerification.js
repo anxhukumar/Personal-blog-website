@@ -47,5 +47,5 @@ export const checkIfLoggedIn = async (req, res, next) => {
     }catch(err) {
         return res.status(401).json({msg: "Unauthorized access, try login or sign up"});
     }
-    }catch(err) ({error: "An error occured while fethching jwt data."})
+    }catch(err) {error: "An error occured while fethching jwt data."}
 }
