@@ -17,7 +17,7 @@ function AdminHome() {
       
       {/* SIDEBAR */}
       {toggleSidebar ? (
-      <div className='absolute right-[710px] w-[500px] rounded-md bg-[#1e293b] z-10 transition-all duration-500 opacity-95 min-h-screen border-4'>
+      <div className='absolute right-[710px] w-[500px] rounded-md bg-[#1e293b] z-10 transition-all duration-500 opacity-95 h-full border-4'>
       
         {/* CLOSE ICON & SEARCH BAR */}
         
@@ -27,7 +27,7 @@ function AdminHome() {
           <SearchBar className="w-96"/>
           <AdminDropdown className='mt-4' menuClassName='absolute' option1="TECH" option2="LIFE" oneOnClick={() => setBlogCategory("TECH")} twoOnClick={() => setBlogCategory("LIFE")} label={blogCategory=="TECH" ? "TECH" : "LIFE"}  />
         </div>
-        <div className='h-[500px] overflow-y-auto custom-scrollbar'>
+        <div className='h-[900px] overflow-y-auto custom-scrollbar'>
             <ol className='flex flex-col gap-2'>
                 <li className='text-white text-md ml-14 mb-3'>
                     <span className='hover:underline cursor-pointer w-fit'>
