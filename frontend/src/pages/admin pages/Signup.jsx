@@ -1,6 +1,7 @@
 import React from 'react'
 import { AdminSolidBtn, AdminInputBox } from '../../components'
 import { Link } from 'react-router-dom'
+import axios from "axios"
 
 function Signup() {
   return (

@@ -1,11 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GradientBtn, HomeBlogSnippet, MessageForm, SearchBar } from '../components'
 import { useSelector } from 'react-redux'
+import axios from "axios"
+import conf from "../conf/conf"
+
 
 function Home() {
 
     const currentMode = useSelector((state) => state.modeSwitch.mode);
     const [messageBox, setMessageBox] = useState(false)
+    const [snippet, setSnippet] = useState([])
+    
+    useEffect(() => {
+        const blogSnippetData = async() => {
+            try{
+            const response = await axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL))
+            setSnippet(response.data)
+            }catch(error){
+                console.log(error)
+            }
+        }
+        blogSnippetData();
+    }, [currentMode])
 
   return (
     <>
@@ -48,12 +64,12 @@ function Home() {
             </div>
         
             
-            <div className='flex flex-col items-center h-screen overflow-y-auto custom-scrollbar'>
-                <HomeBlogSnippet title="Building a career in Web3" overview="In this blog, we explore the exciting world of Web3 and what it takes to build a successful career in this emerging field. With the rise of decentralized applications (dApps), blockchain technology, and cryptocurrencies, the demand for Web3 professionals is skyrocketing. We'll cover the key skills needed, from understanding blockchain fundamentals to mastering smart contracts and decentralized finance (DeFi). Whether you're a developer, designer, marketer, or strategist, this guide will help you navigate the opportunities in the Web3 space and provide actionable steps to kickstart or advance your career in this new digital frontier." datePublished="Sept 12 2024"/>
-                <HomeBlogSnippet title="Building a career in Web3" overview="In this blog, we explore the exciting world of Web3 and what it takes to build a successful career in this emerging field. With the rise of decentralized applications (dApps), blockchain technology, and cryptocurrencies, the demand for Web3 professionals is skyrocketing. We'll cover the key skills needed, from understanding blockchain fundamentals to mastering smart contracts and decentralized finance (DeFi). Whether you're a developer, designer, marketer, or strategist, this guide will help you navigate the opportunities in the Web3 space and provide actionable steps to kickstart or advance your career in this new digital frontier." datePublished="Sept 12 2024"/>
-                <HomeBlogSnippet title="Building a career in Web3" overview="In this blog, we explore the exciting world of Web3 and what it takes to build a successful career in this emerging field. With the rise of decentralized applications (dApps), blockchain technology, and cryptocurrencies, the demand for Web3 professionals is skyrocketing. We'll cover the key skills needed, from understanding blockchain fundamentals to mastering smart contracts and decentralized finance (DeFi). Whether you're a developer, designer, marketer, or strategist, this guide will help you navigate the opportunities in the Web3 space and provide actionable steps to kickstart or advance your career in this new digital frontier." datePublished="Sept 12 2024"/>
-                <HomeBlogSnippet title="Building a career in Web3" overview="In this blog, we explore the exciting world of Web3 and what it takes to build a successful career in this emerging field. With the rise of decentralized applications (dApps), blockchain technology, and cryptocurrencies, the demand for Web3 professionals is skyrocketing. We'll cover the key skills needed, from understanding blockchain fundamentals to mastering smart contracts and decentralized finance (DeFi). Whether you're a developer, designer, marketer, or strategist, this guide will help you navigate the opportunities in the Web3 space and provide actionable steps to kickstart or advance your career in this new digital frontier." datePublished="Sept 12 2024"/>
-                <HomeBlogSnippet title="Building a career in Web3" overview="In this blog, we explore the exciting world of Web3 and what it takes to build a successful career in this emerging field. With the rise of decentralized applications (dApps), blockchain technology, and cryptocurrencies, the demand for Web3 professionals is skyrocketing. We'll cover the key skills needed, from understanding blockchain fundamentals to mastering smart contracts and decentralized finance (DeFi). Whether you're a developer, designer, marketer, or strategist, this guide will help you navigate the opportunities in the Web3 space and provide actionable steps to kickstart or advance your career in this new digital frontier." datePublished="Sept 12 2024"/>
+            <div className='flex flex-col items-center h-screen w-full overflow-y-auto custom-scrollbar'>
+                
+                {snippet.map((data) => (
+                    <HomeBlogSnippet key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate} />
+                ))}
+            
             </div>
         </div>
     </>
