@@ -31,7 +31,7 @@ export const adminRegister = async (req, res) => {
             ...rest,
             password: hashedPassword
         });
-        res.json({msg: "user registered successfully"});
+        res.json({msg: "successful"});
     }else{
         res.json({msg: "Invalid input"})
     }
