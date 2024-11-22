@@ -22,7 +22,7 @@ export const adminRegister = async (req, res) => {
     let response=zodSchema.safeParse(signUpData);
     if (response.success) {
         if (secretKey!=newAdminKey) {
-            return res.status(400).json({msg: "Wrong secret key"})
+            return res.json({msg: "Wrong secret key"})
         }
         const {password, ...rest} = signUpData;
         //Hashing the password with 10 salt rounds

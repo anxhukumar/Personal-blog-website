@@ -17,10 +17,8 @@ function Signup() {
     password: "",
     secretKey: ""
   })
-  const [registeredSuccessfully, setRegisteredSuccessfully] = useState(false)
-  const [error, setError] = useState(false)
-  const [serverError, setServerError] = useState(false)
-
+  const [finalMsgToUser, setFinalMsgToUser] = useState("none")
+  
   const handleChange = (e) => {
     const {placeholder, value} = e.target;
 
@@ -29,7 +27,7 @@ function Signup() {
       "Last name": "lastName",
       "Username": "userName",
       "Password": "password",
-      "Secret key": "secretKey"
+      "Admin secret key": "secretKey"
     }
 
     setFormData(prevState => ({
@@ -44,20 +42,21 @@ function Signup() {
     try{
       const data = await axios.post("/api/v1/admin/register", formData);
       const backendMsg = data.data.msg;
+      console.log(backendMsg);
       //conditions to show success or failure message to user
-      if(backendMsg==="successful") setRegisteredSuccessfully(true)
-        else if(backendMsg==="Invalid input") setError(true)
-          else setServerError(true) 
-      setTimeout(() => (navigate("/admin/login")), 3000);
+      if(backendMsg==="successful") {setFinalMsgToUser("successful"); setTimeout(() => (navigate("/admin/login")), 2000); }
+        else if(backendMsg==="Invalid input") {setFinalMsgToUser("Invalid input")}
+          else if(backendMsg==="Wrong secret key") {setFinalMsgToUser("Wrong secret key")}
+            else {setFinalMsgToUser("Server error")} 
     }catch{
-      setServerError(true)
+      setFinalMsgToUser("Server error")
     }
   }
 
   return (
     <div className='flex justify-center min-h-screen mt-10 mx-32'>
       <div className='flex justify-center  bg-gray-700 w-2/4 h-[530px] rounded-lg'>
-        {!registeredSuccessfully ? (
+        {finalMsgToUser==="none" ? (
         <div className='flex flex-col w-80 mt-9'>
           <div className='text-black font-extrabold text-3xl bg-gray-600 text-center rounded-lg mb-8'>Create an account</div>
           <div className='mx-10'>
@@ -66,22 +65,36 @@ function Signup() {
               <AdminInputBox onChange={handleChange} value={formData.lastName}  placeholder="Last name" />
               <AdminInputBox onChange={handleChange} value={formData.userName}  placeholder="Username" />
               <AdminInputBox onChange={handleChange} value={formData.password}  placeholder="Password" />
-              <AdminInputBox onChange={handleChange} value={formData.secretKey}  placeholder="Secret key" />
+              <AdminInputBox onChange={handleChange} value={formData.secretKey}  placeholder="Admin secret key" />
               <AdminSolidBtn type="submit" label="Create an account" className="w-60 rounded-lg mb-10 hover:bg-gray-900" />
             </form>
               <Link to='/admin/login'>
                 <span className='text-[#D4D4D8] cursor-pointer mx-5 hover:underline'>Already have an account?</span>
               </Link> 
           </div>
-        </div>): error==true ? (
+        </div>): finalMsgToUser==="Invalid input" ? (
             <div className='flex flex-col justify-center items-center transition-all duration-700'>
               <FontAwesomeIcon icon={faSquareXmark} className='size-24' style={{color: "#ec3232",}} shake />
               <span className='text-white font-semibold mt-5'>Invalid input</span>
+              
+              <span onClick={() => setFinalMsgToUser("none")} className='text-[#D4D4D8] cursor-pointer mx-5 mt-8 hover:underline'>Try again?</span>
+              
             </div>
-          ): serverError ? (
+          ): finalMsgToUser==="Server error" ? (
             <div className='flex flex-col justify-center items-center transition-all duration-700'>
               <FontAwesomeIcon icon={faSquareXmark} className='size-24' style={{color: "#ec3232",}} shake />
-              <span className='text-white font-semibold mt-5'>Server side error</span>
+              <span className='text-white font-semibold mt-5'>There's an issue with the server. Please try again later.</span>
+
+              <span onClick={() => setFinalMsgToUser("none")} className='text-[#D4D4D8] cursor-pointer mx-5 mt-8 hover:underline'>Try again now?</span>
+              
+            </div>
+          ): finalMsgToUser==="Wrong secret key" ? (
+            <div className='flex flex-col justify-center items-center transition-all duration-700'>
+              <FontAwesomeIcon icon={faSquareXmark} className='size-24' style={{color: "#ec3232",}} shake />
+              <span className='text-white font-semibold mt-5'><span className='ml-48'>Invalid secret key</span><br /> Please check with the main admin of the website for the correct key.</span>
+
+              <span onClick={() => setFinalMsgToUser("none")} className='text-[#D4D4D8] cursor-pointer mx-5 mt-8 hover:underline'>Try again?</span>
+              
             </div>
           ):(
             <div className='flex flex-col justify-center items-center transition-all duration-700'>
