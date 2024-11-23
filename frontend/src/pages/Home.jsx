@@ -16,8 +16,8 @@ function Home() {
             try{
             const response = await axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL))
             setSnippet(response.data)
-            }catch(error){
-                console.log(error)
+            }catch{
+                setSnippet([{"title": "Server Error"}]) //TODO: SHOW A PROPER ERROR MESSAGE
             }
         }
         blogSnippetData();

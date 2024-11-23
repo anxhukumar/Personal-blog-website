@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AdminDropdown} from '../../components'
+import axios from "axios"
 
 function Messages() {
+
+    const [messagesPreview, setMessagePreview] = useState([])
+    const [message, setMessage] = useState({})
+
+    useEffect(() => {
+        const fetchMessagePreview= async() => {
+        try{
+            const token = localStorage.getItem('token');
+            const response = await axios.get("/api/v1/admin/messagesPreview", {
+                headers: {
+                    "authorization": `Bearer ${token}` 
+                }
+            })
+            setMessagePreview(response.data)
+           
+        }catch{
+            console.log(false) //ERROR HANDLING 
+        }
+    }
+      fetchMessagePreview();  
+    }, [])
+
+    const getFullMessage = async(id) => {
+        try{
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`/api/v1/admin/message?id=${id}`, {
+                headers: {
+                    "authorization": `Bearer ${token}` 
+                }
+            })
+            setMessage(response.data)
+        }catch{
+
+        }
+    }
+
   return (
     <div className='flex min-h-screen mt-10 mx-32'>
     
@@ -19,24 +56,22 @@ function Messages() {
                 
                 <div className='h-[500px] overflow-y-auto custom-scrollbar flex flex-col gap-2'>
                     <ol className='flex flex-col gap-2'>
-                        <li className='text-white text-md ml-14 mb-1'>
+                        
+                       {messagesPreview.map((data) => (
+                        <li key={data.id} className='text-white text-md ml-14 mb-1'>
                             <div className='flex justify-between'>
-                                <span className='hover:underline cursor-pointer w-fit'>
-                                    dummy message 1
+                                <span onClick={() => getFullMessage(data.id)} className='hover:underline cursor-pointer w-fit'>
+                                    {data.preview}
                                 </span>
                                 <FontAwesomeIcon  icon={faTrash} className='text-red-800 mr-2 mt-1 hover:scale-125' />    
                             </div>
-                        </li>
-                        <li className='text-white text-md ml-14 mb-1'>
-                            <div className='flex justify-between'>
-                                <span className='hover:underline cursor-pointer w-fit'>
-                                    dummy message 1
-                                </span>
-                                <FontAwesomeIcon icon={faTrash} className='text-red-800 mr-2 mt-1 hover:scale-125' />    
-                            </div>
-                        </li>
+                        </li> 
+                       )) 
+                       }
+                    
                     </ol>   
                 </div>
+            
             </div>  
             
             {/* MESSAGE CONTAINER */}
@@ -44,18 +79,18 @@ function Messages() {
                 <div className='m-5 flex flex-col gap-5'>
                     <div>
                         <span className='font-extrabold ml-[30px] mr-5'>EMAIL:</span>
-                        sample@gmail.com
+                        {message.email}
                     </div>
                     
                     <div>
                         <span className='font-extrabold ml-[37px] mr-5'>DATE:</span>
-                        Sept 12 2024   |  7:30 PM    
+                        {message.formattedDate}    
                     </div>
                     
                     <div className='flex'>
                         <span className='font-extrabold mr-5'>MESSAGE:</span>
                         <div>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet dictum sem. Nunc sed velit eget massa egestas pellentesque. Proin at commodo neque, in lobortis turpis. Nullam placerat, dolor ut aliquam bibendum, orci felis eleifend tellus, eu aliquam odio eros nec lorem. Mauris vitae dapibus velit, eu posuere orci. Etiam in suscipit massa. Curabitur mi purus, eleifend vel mauris commodo, cursus dapibus nunc. Sed porta consequat diam, et facilisis dui eleifend a.
+                            {message.message}
                         </div>                   
                     </div>
                 </div>

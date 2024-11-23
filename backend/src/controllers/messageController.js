@@ -61,13 +61,14 @@ const zodSchema = z.object({
     export const messagePreview = async (req, res) => {
         try{
         const messageArray = await messagesData.find().select('message').sort({date: -1});
-        let response = [];
+       let response = [];
         //pick each object of the array and then slice them individually and push them into a new array
         messageArray.forEach((message) => {
             message.toObject();
+            let id = message._id;
             let data = message.message;
             data = data.slice(0,10)
-            const a = {preview: `${data}....`};
+            const a = {preview: `${data}....`, id};
             response.push(a);
         })
         res.json(response);
