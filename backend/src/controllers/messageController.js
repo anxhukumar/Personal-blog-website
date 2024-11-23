@@ -1,6 +1,7 @@
 import { messagesData} from "../models/messagesModel.js";
 import { convertDateFormat_II } from "./dateformatController.js";
 import {z} from "zod";
+import { dataSourceKey } from "../config/dotenv.js";
 
 const zodSchema = z.object({
     email: z.string().email().min(1, "Email is required"),
@@ -9,16 +10,20 @@ const zodSchema = z.object({
 
     export const postMessage = async (req, res) => {
     try{
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being sent from unauthorized source", authKey})}
     const message = req.body;
     let response = zodSchema.safeParse(message);
     if (response.success) {
         await messagesData.create(message);
-        res.json({msg: "Message posted successfully"})
+        res.json({msg: "successful"})
     }else {
-        res.status(400).json({error: "Invalid input."})
+        res.status(400).json({msg: "Invalid input"})
     }
     }catch(err) {
-        res.status(500).json({error: "An error occurred while posting message."});
+       console.log(err);
+       
+       res.status(500).json({msg: "An error occurred while posting message."});
     }
 }
 
