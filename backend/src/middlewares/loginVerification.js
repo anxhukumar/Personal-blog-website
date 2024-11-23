@@ -8,6 +8,7 @@ export const adminLogin = async (req, res) => {
     try{
     const signInData=req.body;
     const userName=signInData.userName;
+    if(userName.length < 1) return res.json({msg:"Invalid input"})
     try{const userData = await adminData.findOne({
         userName: userName
     });
@@ -15,7 +16,7 @@ export const adminLogin = async (req, res) => {
     
     if (isCorrect) {
         const token=jwtToken(userName);
-        res.json({token}); //this token needs to be saved on the client-side
+        res.json({status:"Logged in", token}); //this token needs to be saved on the client-side
     }else {
         res.json({msg:"Invalid password"})
     }
@@ -49,3 +50,23 @@ export const checkIfLoggedIn = async (req, res, next) => {
     }
     }catch(err) {error: "An error occured while fethching jwt data."}
 }
+
+
+export const tokenVerification = async(req, res) => {
+    try{
+        const authData=req.headers.authorization;
+        const token=authData.split(' ')[1];
+        const userNameFromJwt = jwtVerify(token);
+        const ifExists = await adminData.exists({
+            userName:userNameFromJwt
+        });
+        
+        if (ifExists) {
+            return res.json({exists: true});
+        }else{
+            return res.json({exists: false});
+        }
+    }catch{
+        return res.json({exists: false});
+    }
+} 

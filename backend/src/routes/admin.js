@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { postBlog } from "../controllers/blogController.js"
 import { adminRegister } from "../controllers/adminController.js";
-import { adminLogin, checkIfLoggedIn } from "../middlewares/loginVerification.js";
+import { adminLogin, checkIfLoggedIn, tokenVerification } from "../middlewares/loginVerification.js";
 import { getBlogById, updateBlog, deleteBlog } from "../controllers/blogController.js";
 import { getMessageById, countIfRead, messagePreview } from "../controllers/messageController.js";
 import { searchAnyBlog } from "../controllers/searchController.js";
@@ -10,6 +10,7 @@ import { searchAnyBlog } from "../controllers/searchController.js";
 export const admin=Router();
 
 admin.post("/register", adminRegister) //register as an admin
+admin.post("/verify", tokenVerification) //takes token and sends boolean if the userName exists or not.
 admin.post("/login", adminLogin) //authenticates the admin to use the blog editor.
 admin.post("/submit", checkIfLoggedIn, postBlog) //posts the written blog to the database.
 admin.get("/blog/", checkIfLoggedIn, getBlogById)//fill blog data in editor to update.

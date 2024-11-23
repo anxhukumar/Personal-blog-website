@@ -7,6 +7,7 @@ import Login from "./pages/admin pages/Login"
 import Signup from "./pages/admin pages/Signup"
 import AdminHome from "./pages/admin pages/AdminHome"
 import Messages from "./pages/admin pages/Messages"
+import { PrivateRoute } from "./components"
 
 function App() {
 
@@ -19,10 +20,10 @@ function App() {
         </Route>
 
         <Route element={<AdminLayout />}>
-          <Route path='admin' element={<AdminHome />} />
+          <Route path='admin' element={<PrivateRoute page={<AdminHome />} />} />
           <Route path='admin/login' element={<Login />} />
           <Route path='admin/signup' element={<Signup />} />
-          <Route path='admin/messages' element={<Messages />} />
+          <Route path='admin/messages' element={<PrivateRoute page={<Messages />} />} />
         </Route>
       </>  
     )

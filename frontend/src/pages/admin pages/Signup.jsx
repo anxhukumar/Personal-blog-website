@@ -42,7 +42,6 @@ function Signup() {
     try{
       const data = await axios.post("/api/v1/admin/register", formData);
       const backendMsg = data.data.msg;
-      console.log(backendMsg);
       //conditions to show success or failure message to user
       if(backendMsg==="successful") {setFinalMsgToUser("successful"); setTimeout(() => (navigate("/admin/login")), 2000); }
         else if(backendMsg==="Invalid input") {setFinalMsgToUser("Invalid input")}

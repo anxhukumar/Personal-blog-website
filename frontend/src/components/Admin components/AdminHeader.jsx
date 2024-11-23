@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { AdminSolidBtn, Logo } from ".."
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMessage, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
@@ -8,11 +8,12 @@ import { faMessage, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
 function AdminHeader() {
 
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <div className='flex justify-between mx-32 pt-4 pb-4 border-b-2 border-[#D9D9D9]'>
         <div className='flex'>
-          <Link to='admin/login'>
+          <Link to='/admin'>
             <Logo className="text-black" />
           </Link>
           
@@ -35,8 +36,13 @@ function AdminHeader() {
             )}
           </div>
         
+        {/* REMOVE JWT FORM LOCALSTORAGE WHEN LOGOUT IS PRESSED */}
         {(location.pathname=="/admin" || location.pathname=="/admin/messages") && (
-          <AdminSolidBtn label="Logout" className="w-32 rounded-lg hover:text-red-700" />
+          <AdminSolidBtn label="Logout" className="w-32 rounded-lg hover:text-red-700" 
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/admin/login", {replace: true})
+          }} />
         )}
         </div>
     </div>
