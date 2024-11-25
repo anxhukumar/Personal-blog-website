@@ -67,12 +67,42 @@ const zodSchema = z.object({
             message.toObject();
             let id = message._id;
             let data = message.message;
+            let read = message.read;
             data = data.slice(0,10)
-            const a = {preview: `${data}....`, id};
+            const a = {preview: `${data}....`, id, read};
             response.push(a);
         })
-        res.json(response);
+        res.json(response); 
         }catch(err) {
             res.status(500).json({error: "An error occurred while getting message preview."})
+        }
+    }
+
+    export const deleteMsg = async(req, res) => {
+        try{
+            const id = req.query.id;
+            if (!id) {
+                return res.status(400).json({error: "Id not found."})
+            }
+            const deleteMsg = await messagesData.findByIdAndDelete(id);
+            
+            res.json({msg: "Deleted successfully"})
+        }catch{
+            res.json({msg: "An error occured while deleting message."})
+        }
+    };
+
+    export const updateReadValue = async(req, res) => {
+        try{
+            const id = req.body.id;
+            if (!id) {
+                return res.status(400).json({error: "Id not found."})
+            }
+            const updateRead = await messagesData.findByIdAndUpdate(id, { $set: { read: true } }, { new: true });
+
+            res.json({msg: "Marked as read"})
+        }catch(error){
+            res.json({msg: "An error occured while updating the read status."});
+            console.log(error)
         }
     }

@@ -1,14 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { AdminSolidBtn, Logo } from ".."
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMessage, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import axios from "axios"
 
 
 function AdminHeader() {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const [unreadMsgCount, setUnreadMsgCount] = useState(0);
+
+  useEffect(() => {
+      const getMsgCount = async() => {
+      const token = localStorage.getItem('token');
+      const response = await axios.get("/api/v1/admin/message-count", {
+        headers: {
+            "authorization": `Bearer ${token}` 
+        }
+    })
+      const unreadCount = response.data.unreadCount;
+      setUnreadMsgCount(unreadCount)
+    }
+    
+    getMsgCount();
+
+    const Intervalid = setInterval(getMsgCount, 30000);
+    
+    return () => clearInterval(Intervalid);
+
+  }, [location.pathname])
+
+
 
   return (
     <div className='flex justify-between mx-32 pt-4 pb-4 border-b-2 border-[#D9D9D9]'>
@@ -29,9 +53,11 @@ function AdminHeader() {
             <span className='font-bold mt-1'>Back</span>
             </Link>
             ):location.pathname=="/admin" && (
-            <Link className="flex items-center animate-bounce w-9 " to='/admin/messages'>
-            <FontAwesomeIcon icon={faMessage} style={{color: "#000000",}} className="size-8 mr-5 relative"/>
-            <span className="text-red-700 font-extrabold absolute bottom-[12px] left-[21px]">5</span>
+            <Link className='relative' to="/admin/messages">
+              <div className={`flex items-center ${unreadMsgCount > 0 && (`animate-bounce`)} w-9 "`}>
+                <FontAwesomeIcon icon={faMessage} style={{color: "#000000",}} className="size-8 mr-5"/>
+                <span className="text-red-700 font-extrabold absolute bottom-[12px] left-[21px]">{unreadMsgCount}</span>
+              </div>
             </Link>
             )}
           </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AdminDropdown} from '../../components'
 import axios from "axios"
 
@@ -41,7 +41,37 @@ function Messages() {
         }
     }
 
-  return (
+  const deleteMsg = async(id) => {
+    try{
+        const token = localStorage.getItem('token');
+        const deleteMsg = await axios.delete(`/api/v1/admin/deleteMsg?id=${id}`, {
+            headers: {
+                "authorization": `Bearer ${token}` 
+            }
+        })
+        setMessagePreview((prevMessage) => prevMessage.filter((message) => message.id !== id))
+    }catch{
+        
+    }
+  }
+
+  const markAsRead = async(id) => {
+    try{
+        const token = localStorage.getItem('token');
+        const updateRead = await axios.patch(`/api/v1/admin/markAsRead`, {id}, {
+            headers: {
+                "authorization": `Bearer ${token}` 
+            }
+        })
+    }catch{
+        console.log("Failure step");
+        
+    }
+  }
+  
+  
+  
+    return (
     <div className='flex min-h-screen mt-10 mx-32'>
     
         {/* MAIN CONTAINER */}
@@ -59,11 +89,11 @@ function Messages() {
                         
                        {messagesPreview.map((data) => (
                         <li key={data.id} className='text-white text-md ml-14 mb-1'>
-                            <div className='flex justify-between'>
+                            <div className={`flex justify-between ${!data.read && `bg-gradient-to-r from-blue-900 to-[#1e293b]`}`}>
                                 <span onClick={() => getFullMessage(data.id)} className='hover:underline cursor-pointer w-fit'>
                                     {data.preview}
                                 </span>
-                                <FontAwesomeIcon  icon={faTrash} className='text-red-800 mr-2 mt-1 hover:scale-125' />    
+                                <FontAwesomeIcon onClick={() => deleteMsg(data.id)}   icon={faTrash} className='text-red-800 mr-2 mt-1 hover:scale-125' />    
                             </div>
                         </li> 
                        )) 
@@ -93,7 +123,17 @@ function Messages() {
                             {message.message}
                         </div>                   
                     </div>
+
                 </div>
+                
+                <div className='h-9 mt-36 flex justify-center'>
+                    <button onClick={() => markAsRead(message.id)} className={`h-8 w-32 font-bold rounded-sm hover:outline ${message.read === true ? (`bg-green-900`):(`bg-blue-900`)}`}>
+                        {message.read === true ? (
+                            <FontAwesomeIcon icon={faCheck} style={{color: "#ffffff",}} />
+                        ):("Mark as Read")}
+                    </button>
+                </div>
+            
             </div>
         
         </div>

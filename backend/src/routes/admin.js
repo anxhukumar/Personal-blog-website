@@ -3,7 +3,7 @@ import { postBlog } from "../controllers/blogController.js"
 import { adminRegister } from "../controllers/adminController.js";
 import { adminLogin, checkIfLoggedIn, tokenVerification } from "../middlewares/loginVerification.js";
 import { getBlogById, updateBlog, deleteBlog } from "../controllers/blogController.js";
-import { getMessageById, countIfRead, messagePreview } from "../controllers/messageController.js";
+import { getMessageById, countIfRead, messagePreview, deleteMsg, updateReadValue } from "../controllers/messageController.js";
 import { searchAnyBlog } from "../controllers/searchController.js";
 
 
@@ -21,3 +21,5 @@ admin.get("/blog-search", checkIfLoggedIn, searchAnyBlog) //searches for the blo
 admin.get("/messagesPreview", checkIfLoggedIn, messagePreview ) //get the few lines of all the messages
 admin.get("/message", checkIfLoggedIn, getMessageById) //get the full data of messages with the id
 admin.get("/message-count", checkIfLoggedIn, countIfRead) //count the total messages, unread messages
+admin.delete("/deleteMsg", checkIfLoggedIn, deleteMsg) //get the id and delete a message
+admin.patch("/markAsRead", checkIfLoggedIn, updateReadValue)//get the id and change the read to true
