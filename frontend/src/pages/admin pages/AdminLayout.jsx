@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 function AdminLayout() {
   return (
-    <div className='bg-gray-600'>
+    <div className='bg-gray-600 min-h-screen w-full'>
         <AdminHeader />
         <Outlet />
     </div>

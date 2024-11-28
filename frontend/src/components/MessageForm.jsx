@@ -17,9 +17,16 @@ function MessageForm({closeMessageBox}) {
   const handleChange = (e) => {
     const {id, value} = e.target;
 
+    const charLimit = {
+      email: 60,
+      message: 250
+    }
+
+    const limitedValue = value.slice(0, charLimit[id])
+
     setFormData(prevState => ({
       ...prevState,
-      [id]:value
+      [id]:limitedValue
     }));
   }
 
@@ -31,13 +38,25 @@ function MessageForm({closeMessageBox}) {
           "datasourcekey": `${conf.DATA_SOURCE_KEY}` 
         }
       })
+      
       const backendMsg = response.data.msg;
+     
       if (backendMsg==="successful") {setFinalMsgToUser("successful"); setTimeout(() => setFinalMsgToUser("none"), 3000)}
-        else if (backendMsg==="Invalid input") {setFinalMsgToUser("Invalid input"); setTimeout(() => setFinalMsgToUser("none"), 3000)}
-          else {setFinalMsgToUser("Server error"); setTimeout(() => setFinalMsgToUser("none"), 3000)}
+       
+          
     }catch(error){
-      console.log(error)
-      setFinalMsgToUser("Server Error"); setTimeout(() => setFinalMsgToUser("none"), 3000)
+
+      const backendMsg = error.response.data.msg;
+        
+      if(backendMsg==="Invalid input") {
+        setFinalMsgToUser("Invalid input"); setTimeout(() => setFinalMsgToUser("none"), 3000)
+      }else if(error.response?.status === 429) {
+        setFinalMsgToUser("Too many requests"); 
+        setTimeout(() => setFinalMsgToUser("none"), 3000)
+      }else{
+        setFinalMsgToUser("Server Error"); setTimeout(() => setFinalMsgToUser("none"), 3000)
+      }
+     
     }
   }
 
@@ -72,6 +91,13 @@ function MessageForm({closeMessageBox}) {
             <FontAwesomeIcon icon={faSquareXmark} className='size-5 m-1' style={{color: "#ec3232",}} fade/>
             <span className='font-bold text-white mt-1'>Server error</span>
           </span>
+        </div>
+        ): finalMsgToUser==="Too many requests" ? (
+          <div className='border-2 border-red-900 h-9 bg-[#36373A]'>
+            <span className='flex items-center justify-center'>
+              <FontAwesomeIcon icon={faSquareXmark} className='size-5 m-1' style={{color: "#ec3232",}} fade/>
+              <span className='font-bold text-white mt-1'>Too many submissions. Try later</span>
+            </span>
         </div>
         ):(<></>)}
         

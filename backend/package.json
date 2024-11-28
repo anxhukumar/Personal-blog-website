@@ -12,14 +12,18 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cheerio": "^1.0.0",
     "cross-spawn": "^7.0.6",
+    "dompurify": "^3.2.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.4.0",
     "i": "^0.3.7",
+    "jsdom": "^25.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.1",
     "npm": "^10.8.3",
+    "reading-time": "^1.5.0",
     "zod": "^3.23.8"
   }
 }

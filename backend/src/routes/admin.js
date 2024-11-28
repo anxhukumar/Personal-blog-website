@@ -14,8 +14,8 @@ admin.post("/verify", tokenVerification) //takes token and sends boolean if the 
 admin.post("/login", adminLogin) //authenticates the admin to use the blog editor.
 admin.post("/submit", checkIfLoggedIn, postBlog) //posts the written blog to the database.
 admin.get("/blog/", checkIfLoggedIn, getBlogById)//fill blog data in editor to update.
-admin.post("/update", checkIfLoggedIn, updateBlog)//update the blog
-admin.post("/delete", checkIfLoggedIn, deleteBlog) //delete a blog
+admin.patch("/update", checkIfLoggedIn, updateBlog)//update the blog
+admin.delete("/delete/:id", checkIfLoggedIn, deleteBlog) //delete a blog
 admin.get("/blog-search", checkIfLoggedIn, searchAnyBlog) //searches for the blog titles
 
 admin.get("/messagesPreview", checkIfLoggedIn, messagePreview ) //get the few lines of all the messages

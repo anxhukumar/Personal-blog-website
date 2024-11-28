@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { postMessage } from "../controllers/messageController.js";
+import { rateLimiter } from "../middlewares/rateLimiter.js";
 
 
 export const messages = Router();
 
-messages.post("/submit", postMessage);
+const messageRateLimiter = rateLimiter(60, 2)
+
+messages.post("/submit", messageRateLimiter, postMessage);

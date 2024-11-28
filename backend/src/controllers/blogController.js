@@ -1,9 +1,36 @@
 import { blogData } from "../models/blogModel.js";
 import { convertDateFormat } from "./dateformatController.js";
+import { dataSourceKey } from "../config/dotenv.js";
+import DOMPurify from "dompurify";
+import { JSDOM } from 'jsdom';
+import * as cheerio from 'cheerio';
+import readingTime from 'reading-time';
 
 export const postBlog = async(req, res) => {
     try{
-    const blog=req.body;
+    const dataReceived=req.body;
+    
+    //Gets the mainContent and extracts plain text from it
+    const editorData = dataReceived.mainContent;
+    const $ = cheerio.load(editorData);
+    const decodedText = $.root().text();
+    
+    //Calculates the reading time of the plainText
+    const stats = readingTime(decodedText);
+    
+    //Sanitizing the blog data before storing to prevent xss attacks 
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
+    const sanitizedTags = (dataReceived.tags).map(tag => purify.sanitize(tag));
+    const blog = {
+        ...dataReceived,
+        mainContent: purify.sanitize(dataReceived.mainContent),
+        title: purify.sanitize(dataReceived.title),
+        overview: purify.sanitize(dataReceived.overview),
+        tags: sanitizedTags,
+        readingTime: stats.text
+    }
+    
     if (!blog) {
         return res.status(400).json({error: "Invalid input"})
     }
@@ -16,7 +43,11 @@ export const postBlog = async(req, res) => {
 
 export const getTechBlogSnippet = async(req, res) => {
     try{
-    let response= await blogData.find({category:"Tech"}).select('title overview datePublished');
+    
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+    let response= await blogData.find({category:"Tech"}).select('title overview datePublished isPublished category');
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
         return {
@@ -31,7 +62,11 @@ export const getTechBlogSnippet = async(req, res) => {
 } 
 export const getLifeBlogSnippet = async(req, res) => {
     try{
-    let response= await blogData.find({category:"Life"}).select('title overview datePublished');
+        
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+    let response= await blogData.find({category:"Life"}).select('title overview datePublished isPublished category');
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
         return {
@@ -47,7 +82,11 @@ export const getLifeBlogSnippet = async(req, res) => {
 
 export const getBlogById = async(req, res) => {
     try{
-    const id=req.query.id;
+        
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+    const id=req.headers.id;
     if (!id) {
         return res.status(400).json({error: "Blog not found."})
     }
@@ -63,14 +102,35 @@ export const getBlogById = async(req, res) => {
 
 export const updateBlog = async (req, res) => {
     try{
-    const blog=req.body;
-    const id=blog._id;
-    await blogData.updateOne({
-        _id:id
-    },(
-        blog
-    ))
-    res.json({msg:"Blog updated successfully"});
+        const dataReceived=req.body;
+    
+        //Gets the mainContent and extracts plain text from it
+        const editorData = dataReceived.mainContent;
+        const $ = cheerio.load(editorData);
+        const decodedText = $.root().text();
+        
+        //Calculates the reading time of the plainText
+        const stats = readingTime(decodedText);
+        
+        //Sanitizing the blog data before storing to prevent xss attacks 
+        const window = new JSDOM('').window;
+        const purify = DOMPurify(window);
+        const sanitizedTags = (dataReceived.tags).map(tag => purify.sanitize(tag));
+        const blog = {
+            ...dataReceived,
+            mainContent: purify.sanitize(dataReceived.mainContent),
+            title: purify.sanitize(dataReceived.title),
+            overview: purify.sanitize(dataReceived.overview),
+            tags: sanitizedTags,
+            readingTime: stats.text
+        }
+        const id=blog._id;
+        await blogData.updateOne({
+            _id:id
+        },(
+            blog
+        ))
+        res.json({msg:"Blog updated successfully"});
     }catch(err) {
         res.status(500).json({error: "An error occurred while updating data."})
     }
@@ -78,7 +138,10 @@ export const updateBlog = async (req, res) => {
 
 export const deleteBlog = async (req, res) => {
     try{
-    const id=req.body._id;
+    const id=req.params.id;
+    if (!id) {
+        return res.status(400).json({error: "Id not found."})
+    }
     await blogData.deleteOne({
         _id: id
     });

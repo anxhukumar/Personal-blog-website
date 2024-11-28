@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-function QuillTextEditor({ className }) {
-    const [value, setValue] = useState('');
+function QuillTextEditor({ className, value, onChange}) {
+    
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
-        ['link', 'image', 'formula'],
+        // to add image just replace with this ['link', 'image', 'formula']
+        ['link','formula'], 
         [{ 'header': 1 }, { 'header': 2 }],
         [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
         [{ 'script': 'sub'}, { 'script': 'super' }],
@@ -22,7 +23,7 @@ function QuillTextEditor({ className }) {
         ['clean']
     ];
 
-    const module = {
+    const modules = {
         toolbar: toolbarOptions,
     };
 
@@ -34,16 +35,16 @@ function QuillTextEditor({ className }) {
                 <ReactQuill 
                     theme="snow"
                     value={value}
-                    onChange={setValue}
-                    modules={module}
+                    onChange={onChange}
+                    modules={modules}
                     className="absolute inset-0"
                     style={{
                         height: '100%',
                         display: 'flex',
-                        flexDirection: 'column'
+                        flexDirection: 'column',
                     }}
                 />
-                <style>{`
+               <style>{`
                     /* Target the Quill editor container */
                     .quill {
                         height: 100%;
@@ -65,6 +66,13 @@ function QuillTextEditor({ className }) {
                     /* Target the editor area */
                     .ql-editor {
                         min-height: 100%;
+                        background-color: #1E1F21 !important;
+                        color: #EEEEEE !important;
+                    }
+
+                    /* Ensure placeholder text is visible */
+                    .ql-editor.ql-blank::before {
+                        color: #EEEEE !important;
                     }
                 `}</style>
             </div>

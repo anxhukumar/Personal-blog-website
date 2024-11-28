@@ -2,17 +2,31 @@ import { messagesData} from "../models/messagesModel.js";
 import { convertDateFormat_II } from "./dateformatController.js";
 import {z} from "zod";
 import { dataSourceKey } from "../config/dotenv.js";
+import DOMPurify from "dompurify";
+import { JSDOM } from 'jsdom';
 
 const zodSchema = z.object({
-    email: z.string().email().min(1, "Email is required"),
-    message: z.string().min(1, "Message is required")
+    email: z.string().email().min(1, "Email is required").max(60, "Email cannot exceed 60 characters"),
+    message: z.string().min(1, "Message is required").max(250, "Message cannot exceed 250 characters")
 })
 
     export const postMessage = async (req, res) => {
     try{
     const authKey = req.headers.datasourcekey;
-    if (authKey != dataSourceKey) {return res.json({msg: "Data being sent from unauthorized source", authKey})}
-    const message = req.body;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being sent from unauthorized source"})}
+    const dataReceived = req.body;
+    
+    //Sanitizing the message data before storing to prevent xss attacks 
+    const window = new JSDOM('').window;
+    const purify = DOMPurify(window);
+    const message = {
+        ...dataReceived,
+        message: purify.sanitize(dataReceived.message, {
+            ALLOWED_TAGS: [],
+            ALLOWED_ATTR: []
+          })
+    }
+    
     let response = zodSchema.safeParse(message);
     if (response.success) {
         await messagesData.create(message);

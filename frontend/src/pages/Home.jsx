@@ -3,21 +3,30 @@ import { GradientBtn, HomeBlogSnippet, MessageForm, SearchBar } from '../compone
 import { useSelector } from 'react-redux'
 import axios from "axios"
 import conf from "../conf/conf"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+
 
 
 function Home() {
 
     const currentMode = useSelector((state) => state.modeSwitch.mode);
     const [messageBox, setMessageBox] = useState(false)
+    
     const [snippet, setSnippet] = useState([])
+    const [snippetError, setSnippetError] = useState(false)
     
     useEffect(() => {
         const blogSnippetData = async() => {
             try{
-            const response = await axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL))
+            const response = await axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+                headers: {
+                  "datasourcekey": `${conf.DATA_SOURCE_KEY}` 
+                }
+              })
             setSnippet(response.data)
             }catch{
-                setSnippet([{"title": "Server Error"}]) //TODO: SHOW A PROPER ERROR MESSAGE
+                setSnippetError(true)
             }
         }
         blogSnippetData();
@@ -66,9 +75,21 @@ function Home() {
             
             <div className='flex flex-col items-center h-screen w-full overflow-y-auto custom-scrollbar'>
                 
-                {snippet.map((data) => (
-                    <HomeBlogSnippet key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate} />
-                ))}
+                {snippetError ? (
+                    <div className='flex justify-center items-center gap-2 w-fit mt-36 ml-40'>
+                        <FontAwesomeIcon icon={faSquareXmark} className='size-16' style={{color: "#ec3232",}}/>
+                        <h1 className='text-red-700 font-bold text-4xl'>Server Error</h1>
+                    </div>
+                ):(
+                    snippet.map((data) => (
+                        data.isPublished && (
+                            <HomeBlogSnippet state={{id: data._id, category: data.category.toLowerCase()}} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
+                        )
+                        
+                    ))
+                )}
+
+                
             
             </div>
         </div>

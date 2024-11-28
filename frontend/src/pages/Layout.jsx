@@ -4,7 +4,7 @@ import {MainHeader} from "../components"
 
 function Layout() {
   return (
-   <div className='bg-[#1E1F23]'>
+   <div className='bg-[#1E1F21] min-h-screen w-full'>
     <MainHeader />
     <Outlet />
    </div>
