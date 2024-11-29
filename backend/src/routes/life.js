@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getLifeBlogSnippet, getBlogById, totalLifeBlogCount } from "../controllers/blogController.js";
+import { getLifeBlogSnippet, getBlogById, totalLifeBlogCount, getLifeBlogTopics } from "../controllers/blogController.js";
 import { searchLifeBlog } from "../controllers/searchController.js";
 
 
@@ -9,3 +9,4 @@ life.get("/home", getLifeBlogSnippet) //get the title, overview and date of the 
 life.get("/",getBlogById) //get specific blog with id
 life.get("/search", searchLifeBlog) //search for the blogs
 life.get("/totalCount", totalLifeBlogCount) //gives the total number of blogs in this category
+life.get("/getTopics", getLifeBlogTopics) //get topics of blogs

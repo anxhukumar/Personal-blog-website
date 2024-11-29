@@ -182,3 +182,56 @@ export const totalLifeBlogCount =  async (req, res) => {
         res.status(500).json({error: "An error occurred while sending total blog count."})
     }
 }
+
+export const getTechBlogTopics = async(req, res) => {
+    try{
+    
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+   const limit = parseInt(req.headers.numberofdata);
+   let response= await blogData.find({category:"Tech"}).select('_id, tags');
+   
+   const uniqueTags = [];
+        const seenTags = new Set();
+
+        response.forEach(doc => {
+            const tag = doc.tags[0];
+            if (tag && !seenTags.has(tag)) {
+                uniqueTags.push({ id: doc._id, topic: tag });
+                seenTags.add(tag);
+            }
+        });
+
+        res.json(uniqueTags);
+
+}catch(err) {
+    res.status(500).json({error: "An error occurred while getting blog data."});
+}
+} 
+
+export const getLifeBlogTopics = async(req, res) => {
+    try{
+        
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+    const limit = parseInt(req.headers.numberofdata);
+    let response= await blogData.find({category:"Life"}).select('_id, tags');
+    
+    const uniqueTags = [];
+    const seenTags = new Set();
+
+    response.forEach(doc => {
+        const tag = doc.tags[0];
+        if (tag && !seenTags.has(tag)) {
+            uniqueTags.push({ id: doc._id, topic: tag });
+            seenTags.add(tag);
+        }
+    });
+
+    res.json(uniqueTags);
+}catch(err) {
+    res.status(500).json({error: "An error occurred while getting blog data."});
+}
+}

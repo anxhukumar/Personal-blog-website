@@ -18,6 +18,8 @@ function Home() {
     const [numberOfData, setNumberOfData] = useState(10)
 
     const [totalCount, setTotalCount] = useState(0)
+
+    const [topics, setTopics] = useState([])
     
     useEffect(() => {
         setSnippet([]);
@@ -49,6 +51,23 @@ function Home() {
             }
         }
         blogSnippetData();
+    }, [currentMode])
+
+    useEffect(() => {
+        const fetchTopics = async() => {
+            try{
+                const response = await axios.get(`/api/v1/${currentMode}/getTopics`, {
+                    headers: {
+                      "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                    }
+                  })
+                  setTopics(response.data)
+            }catch{
+                setTopics({topic: "Server Error"})
+            }
+        }
+        fetchTopics();
+        
     }, [currentMode])
 
     const handleViewMore = async () => {
@@ -87,30 +106,18 @@ function Home() {
                 <div className='flex flex-col gap-1'>
                     <span className={`transition duration-700 ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
                     <ol className='text-white'>
-                        <li>
-                            <span className='inline-block hover:underline cursor-pointer'>Dummy topic</span>
-                        </li>
                         
+                       {topics.map((data) => (
                         <li>
-                            <span className='inline-block hover:underline cursor-pointer'>Dummy topic</span>
+                            <span className='inline-block hover:underline cursor-pointer'>{data.topic}</span>
                         </li>
-                        
-                        <li>
-                            <span className='inline-block hover:underline cursor-pointer'>Dummy topic</span>
-                        </li>
-                        
-                        <li>
-                            <span className='inline-block hover:underline cursor-pointer'>Dummy topic</span>
-                        </li>
-                       
-                        <li>
-                            <span className='inline-block hover:underline cursor-pointer'>Dummy topic</span>
-                        </li>
+                       )) }
+                    
                     </ol>
                 </div>
 
                 {/* MessageForm with smooth transition */}
-                <div className={`transition-all duration-500 ease-in-out transform ${messageBox ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
+                <div className={`mb-10 transition-all duration-500 ease-in-out transform ${messageBox ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
                     {messageBox && <MessageForm closeMessageBox={() => setMessageBox(false)} />}
                 </div>
                 
