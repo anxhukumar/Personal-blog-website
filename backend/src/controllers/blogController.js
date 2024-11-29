@@ -47,7 +47,8 @@ export const getTechBlogSnippet = async(req, res) => {
     const authKey = req.headers.datasourcekey;
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
-    let response= await blogData.find({category:"Tech"}).select('title overview datePublished isPublished category');
+   const limit = parseInt(req.headers.numberofdata);
+   let response= await blogData.find({category:"Tech"}).select('title overview datePublished isPublished category').skip(limit-10).limit(limit);
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
         return {
@@ -66,7 +67,8 @@ export const getLifeBlogSnippet = async(req, res) => {
     const authKey = req.headers.datasourcekey;
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
-    let response= await blogData.find({category:"Life"}).select('title overview datePublished isPublished category');
+    const limit = parseInt(req.headers.numberofdata);
+    let response= await blogData.find({category:"Life"}).select('title overview datePublished isPublished category').skip(limit-10).limit(limit);
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
         return {
@@ -148,5 +150,35 @@ export const deleteBlog = async (req, res) => {
     res.json ({msg: "Blog deleted successfully"})
     }catch(err) {
         res.status(500).json({error: "An error occurred while deleting data."})
+    }
+}
+
+export const totalTechBlogCount = async (req, res) => {
+    try{
+    
+        const authKey = req.headers.datasourcekey;
+        if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+        const response = await blogData.find({category:"Tech"}).countDocuments();
+    
+        res.json({totalBlogCount: response});
+        
+    }catch(err) {
+        res.status(500).json({error: "An error occurred while sending total blog count."})
+    }
+}
+
+export const totalLifeBlogCount =  async (req, res) => {
+    try{
+    
+        const authKey = req.headers.datasourcekey;
+        if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+        const response = await blogData.find({category:"Life"}).countDocuments();
+    
+        res.json({totalBlogCount: response});
+        
+    }catch(err) {
+        res.status(500).json({error: "An error occurred while sending total blog count."})
     }
 }

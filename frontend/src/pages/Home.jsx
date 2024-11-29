@@ -15,22 +15,68 @@ function Home() {
     
     const [snippet, setSnippet] = useState([])
     const [snippetError, setSnippetError] = useState(false)
+    const [numberOfData, setNumberOfData] = useState(10)
+
+    const [totalCount, setTotalCount] = useState(0)
     
     useEffect(() => {
+        setSnippet([]);
+
+        setNumberOfData(10);
+
+        setTotalCount(0);
+
         const blogSnippetData = async() => {
             try{
-            const response = await axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+            const [snippetResponse, countResponse] = await Promise.all([ 
+            axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
                 headers: {
-                  "datasourcekey": `${conf.DATA_SOURCE_KEY}` 
+                  "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                  "numberOfData": 10
                 }
-              })
-            setSnippet(response.data)
+              }),
+            axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
+                headers: {
+                  "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                }
+              }),
+            ])
+            setSnippet(snippetResponse.data)
+            console.log(totalCount);
+            setTotalCount(countResponse.data.totalBlogCount)
             }catch{
                 setSnippetError(true)
             }
         }
         blogSnippetData();
     }, [currentMode])
+
+    const handleViewMore = async () => {
+        const newLimit = numberOfData + 10;
+        setNumberOfData(newLimit)
+        try{
+            const [snippetResponse, countResponse] = await Promise.all([ 
+                axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+                    headers: {
+                      "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                      "numberOfData": newLimit
+                    }
+                  }),
+                axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
+                    headers: {
+                      "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                    }
+                  }),
+                ])
+            setSnippet((prevState) => [...prevState, ...snippetResponse.data])
+            setTotalCount(countResponse.data.totalBlogCount)
+            }catch{
+                setSnippetError(true)
+            }
+        }
+
+        
+        
 
   return (
     <>
@@ -81,12 +127,19 @@ function Home() {
                         <h1 className='text-red-700 font-bold text-4xl'>Server Error</h1>
                     </div>
                 ):(
-                    snippet.map((data) => (
-                        data.isPublished && (
-                            <HomeBlogSnippet state={{id: data._id, category: data.category.toLowerCase()}} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
-                        )
-                        
-                    ))
+                    <>
+                        {snippet.map((data) => (
+                            data.isPublished && (
+                                <HomeBlogSnippet state={{id: data._id, category: data.category.toLowerCase()}} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
+                            )
+                            
+                        ))}
+                        {/* TODO: SHOW THIS ONLY IF THE SNIPPET STATE CONTAINS LESS THAN THE TOTAL NUMBER OF CURRENT MODE BLOGS */}
+                        {snippet.length < totalCount && (
+                        <span onClick={handleViewMore} className={`cursor-pointer transition-all duration-500 hover:underline text-xl font-bold mr-[550px] mb-16 ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>
+                            View More
+                        </span>)}
+                    </>
                 )}
 
                 
