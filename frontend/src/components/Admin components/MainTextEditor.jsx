@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import QuillTextEditor from './QuillTextEditor'
-import AdminSolidBtn from './AdminSolidBtn'
+import {AdminSolidBtn, DeleteConfirmation} from '..'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faSquareXmark, faTrash} from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 import DOMPurify from "dompurify"
+
 
 function MainTextEditor({oldBlogData}) {
 
@@ -19,6 +20,8 @@ function MainTextEditor({oldBlogData}) {
   })
 
   const [blogSaveError, setBlogSaveError] = useState(false)
+
+  const [openDeleteBox, setOpenDeleteBox] = useState(false)
 
   useEffect(() => {
     if(Object.keys(oldBlogData).length>0) {
@@ -146,8 +149,11 @@ function MainTextEditor({oldBlogData}) {
               <QuillTextEditor value={formData.mainContent} onChange={(content) => handleChange({ target: { name: 'mainContent', value: content } })}  className="bg-[#ededee] text-lg h-[600px]" />
             </div>
             
-            <div className='w-full'>
+            <div className='w-full mb-5'>
               <input type="text" name="tags" value={Array.isArray(formData.tags) ? formData.tags.join("|") : ""} onChange={handleChange}  placeholder='Tags' className='bg-[#1E1F21] text-white  w-full h-9 text-lg p-1 rounded-sm' />
+              <span className="text-sm text-white mt-2 block">
+              <span className="font-extrabold text-lg mr-1 text-orange-600">*</span>Use <span className="font-extrabold">|</span> to separate tags if giving more than one. The first tag will always be chosen as the topic under which your blog will show up.
+              </span>
             </div>
             
             <div className='w-full'>
@@ -171,13 +177,15 @@ function MainTextEditor({oldBlogData}) {
             </div>
             )}
 
-            <AdminSolidBtn onClick={deleteBlog} className="w-32 rounded-lg hover:scale-105 text-red-700 mt-8 mb-8" 
+            <AdminSolidBtn type="button" onClick={() => { if(formData.title.length>=1) setOpenDeleteBox(true) }} className="w-32 rounded-lg hover:scale-105 text-red-700 mt-8 mb-8" 
             label={
               <>
                 <FontAwesomeIcon icon={faTrash} className='mr-2 ' />
                 <span>DELETE</span>
               </>
             } />
+
+            <DeleteConfirmation isOpen={openDeleteBox} onClose={() => setOpenDeleteBox(false)} onDelete={deleteBlog} />
         </form>   
       </div>  
         

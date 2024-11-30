@@ -15,6 +15,7 @@ function Signup() {
     lastName: "",
     userName: "",
     password: "",
+    confirmPassword: "",
     secretKey: ""
   })
   const [finalMsgToUser, setFinalMsgToUser] = useState("none")
@@ -27,6 +28,7 @@ function Signup() {
       "Last name": "lastName",
       "Username": "userName",
       "Password": "password",
+      "Confirm password": "confirmPassword",
       "Admin secret key": "secretKey"
     }
 
@@ -40,6 +42,7 @@ function Signup() {
     e.preventDefault();
 
     try{
+      if (formData.password !== formData.confirmPassword) {return setFinalMsgToUser("Passwords don't match")}
       const data = await axios.post("/api/v1/admin/register", formData);
       const backendMsg = data.data.msg;
       //conditions to show success or failure message to user
@@ -56,17 +59,19 @@ function Signup() {
     <div className='flex justify-center min-h-screen mt-10 mx-32'>
       <div className='flex justify-center  bg-gray-700 w-2/4 h-[530px] rounded-lg'>
         {finalMsgToUser==="none" ? (
-        <div className='flex flex-col w-80 mt-9'>
+        <div className='flex flex-col w-80 mt-4'>
           <div className='text-black font-extrabold text-3xl bg-gray-600 text-center rounded-lg mb-8'>Create an account</div>
           <div className='mx-10'>
             <form onSubmit={handleSubmit}>
               <AdminInputBox onChange={handleChange} value={formData.firstName} placeholder="First name" />
               <AdminInputBox onChange={handleChange} value={formData.lastName}  placeholder="Last name" />
               <AdminInputBox onChange={handleChange} value={formData.userName}  placeholder="Username" />
-              <AdminInputBox onChange={handleChange} value={formData.password}  placeholder="Password" />
+              <AdminInputBox onChange={handleChange} value={formData.password}  placeholder="Password" type='password' />
+              <AdminInputBox onChange={handleChange} value={formData.confirmPassword}  placeholder="Confirm password" type='password' />
               <AdminInputBox onChange={handleChange} value={formData.secretKey}  placeholder="Admin secret key" />
-              <AdminSolidBtn type="submit" label="Create an account" className="w-60 rounded-lg mb-10 hover:bg-gray-900" />
+              <AdminSolidBtn type="submit" label="Create an account" className="w-60 rounded-lg mb-8  hover:bg-gray-900" />
             </form>
+              
               <Link to='/admin/login'>
                 <span className='text-[#D4D4D8] cursor-pointer mx-5 hover:underline'>Already have an account?</span>
               </Link> 
@@ -95,6 +100,14 @@ function Signup() {
               <span onClick={() => setFinalMsgToUser("none")} className='text-[#D4D4D8] cursor-pointer mx-5 mt-8 hover:underline'>Try again?</span>
               
             </div>
+          ): finalMsgToUser==="Passwords don't match" ? (
+            <div className='flex flex-col justify-center items-center transition-all duration-700'>
+            <FontAwesomeIcon icon={faSquareXmark} className='size-24' style={{color: "#ec3232",}} shake />
+            <span className='text-white font-semibold mt-5'>Passwords don't match</span>
+            
+            <span onClick={() => setFinalMsgToUser("none")} className='text-[#D4D4D8] cursor-pointer mx-5 mt-8 hover:underline'>Try again?</span>
+            
+          </div>
           ):(
             <div className='flex flex-col justify-center items-center transition-all duration-700'>
               <FontAwesomeIcon icon={faSquareCheck} className='size-24' style={{color: "#11fa00",}} shake />

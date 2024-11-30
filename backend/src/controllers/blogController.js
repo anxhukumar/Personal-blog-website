@@ -48,7 +48,10 @@ export const getTechBlogSnippet = async(req, res) => {
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
    const limit = parseInt(req.headers.numberofdata);
-   let response= await blogData.find({category:"Tech"}).select('title overview datePublished isPublished category').skip(limit-10).limit(limit);
+   const topic = req.headers.topic;
+   const getAll= req.headers.getall;
+   const criteria = topic ? ({category: "Tech", "tags.0": topic}):({category: "Tech"})
+   let response= await blogData.find(criteria).select('title overview datePublished isPublished category').skip(getAll ? (0):(limit-10)).limit(getAll ? (0):(10));
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
         return {
@@ -61,6 +64,7 @@ export const getTechBlogSnippet = async(req, res) => {
     res.status(500).json({error: "An error occurred while getting blog data."});
 }
 } 
+
 export const getLifeBlogSnippet = async(req, res) => {
     try{
         
@@ -68,7 +72,10 @@ export const getLifeBlogSnippet = async(req, res) => {
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
     const limit = parseInt(req.headers.numberofdata);
-    let response= await blogData.find({category:"Life"}).select('title overview datePublished isPublished category').skip(limit-10).limit(limit);
+    const topic = req.headers.topic;
+    const getAll= req.headers.getall;
+    const criteria = topic ? ({category: "Life", "tags.0": topic}):({category: "Life"})
+    let response= await blogData.find(criteria).select('title overview datePublished isPublished category').skip(getAll ? (0):(limit-10)).limit(getAll ? (0):(10));
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
         return {
@@ -158,8 +165,10 @@ export const totalTechBlogCount = async (req, res) => {
     
         const authKey = req.headers.datasourcekey;
         if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
-    
-        const response = await blogData.find({category:"Tech"}).countDocuments();
+        
+        const topic = req.headers.topic;
+        const criteria = topic ? ({category: "Tech", "tags.0": topic}):({category: "Tech"});
+        const response = await blogData.find(criteria).countDocuments();
     
         res.json({totalBlogCount: response});
         
@@ -173,8 +182,10 @@ export const totalLifeBlogCount =  async (req, res) => {
     
         const authKey = req.headers.datasourcekey;
         if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
-    
-        const response = await blogData.find({category:"Life"}).countDocuments();
+        
+        const topic = req.headers.topic;
+        const criteria = topic ? ({category: "Life", "tags.0": topic}):({category: "Life"});
+        const response = await blogData.find(criteria).countDocuments();
     
         res.json({totalBlogCount: response});
         
@@ -189,8 +200,7 @@ export const getTechBlogTopics = async(req, res) => {
     const authKey = req.headers.datasourcekey;
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
-   const limit = parseInt(req.headers.numberofdata);
-   let response= await blogData.find({category:"Tech"}).select('_id, tags');
+    let response= await blogData.find({category:"Tech"}).select('_id, tags');
    
    const uniqueTags = [];
         const seenTags = new Set();
@@ -216,7 +226,6 @@ export const getLifeBlogTopics = async(req, res) => {
     const authKey = req.headers.datasourcekey;
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
-    const limit = parseInt(req.headers.numberofdata);
     let response= await blogData.find({category:"Life"}).select('_id, tags');
     
     const uniqueTags = [];

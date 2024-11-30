@@ -25,7 +25,8 @@ function AdminHome() {
       try{
         const response = await axios.get(blogCategory==="TECH" ? ("/api/v1/tech/home") : ("/api/v1/life/home"), {
           headers: {
-            "datasourcekey": `${conf.DATA_SOURCE_KEY}` 
+            "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+            "getall": true 
           }
         });
         setBlogSnippet(response.data)

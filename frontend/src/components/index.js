@@ -15,5 +15,6 @@ import QuillTextEditor from "./Admin components/QuillTextEditor";
 import MainTextEditor from "./Admin components/MainTextEditor";
 import Loading from "./Loading";
 import PrivateRoute from "./Admin components/PrivateRoute";
+import DeleteConfirmation from "./Admin components/DeleteConfirmation";
 
-export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader, AdminHeader, AdminSolidBtn, AdminInputBox, AdminDropdown, QuillTextEditor, MainTextEditor, Loading, PrivateRoute}
+export {Logo, ModeSwitch, SolidBtn, SearchBar, GradientBtn, MessageForm, HomeBlogSnippet, FixedModeSwitch, MainHeader, AdminHeader, AdminSolidBtn, AdminInputBox, AdminDropdown, QuillTextEditor, MainTextEditor, Loading, PrivateRoute, DeleteConfirmation}

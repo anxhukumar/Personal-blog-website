@@ -20,6 +20,8 @@ function Home() {
     const [totalCount, setTotalCount] = useState(0)
 
     const [topics, setTopics] = useState([])
+
+    const [currentSelectedTopic, setCurrentSelectedTopic] = useState("");
     
     useEffect(() => {
         setSnippet([]);
@@ -27,6 +29,8 @@ function Home() {
         setNumberOfData(10);
 
         setTotalCount(0);
+
+        setCurrentSelectedTopic("");
 
         const blogSnippetData = async() => {
             try{
@@ -44,7 +48,6 @@ function Home() {
               }),
             ])
             setSnippet(snippetResponse.data)
-            console.log(totalCount);
             setTotalCount(countResponse.data.totalBlogCount)
             }catch{
                 setSnippetError(true)
@@ -58,7 +61,7 @@ function Home() {
             try{
                 const response = await axios.get(`/api/v1/${currentMode}/getTopics`, {
                     headers: {
-                      "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                      "datasourcekey": `${conf.DATA_SOURCE_KEY}`
                     }
                   })
                   setTopics(response.data)
@@ -78,12 +81,14 @@ function Home() {
                 axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
                     headers: {
                       "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
-                      "numberOfData": newLimit
+                      "numberOfData": newLimit,
+                      "topic": currentSelectedTopic
                     }
                   }),
                 axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
                     headers: {
                       "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                      "topic": currentSelectedTopic
                     }
                   }),
                 ])
@@ -94,22 +99,59 @@ function Home() {
             }
         }
 
+    const getTopicWiseSnippets = async(topic) => {
+        setSnippet([]);
+
+        setNumberOfData(10);
+
+        setTotalCount(0);
+
+        try{
+        const [snippetResponse, countResponse] = await Promise.all([ 
+        axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+            headers: {
+                "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                "numberOfData": 10,
+                "topic": topic
+            }
+            }),
+        axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
+            headers: {
+                "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                "topic": topic
+            }
+            })
+        ])
+        setSnippet(snippetResponse.data)
+        setTotalCount(countResponse.data.totalBlogCount)
+        setCurrentSelectedTopic(topic)
+        }catch{
+            setSnippetError(true)
+        }
+        
+    }
         
         
 
   return (
     <>
         <div className='flex min-h-screen mt-10 mx-32'>
-            <div className='flex flex-col gap-10 min-w-80 h-3/4'>
+            <div className='flex flex-col min-w-80 h-3/4'>
                 <SearchBar />
                 
-                <div className='flex flex-col gap-1'>
+                <div className='flex flex-col gap-1 mt-10'>
                     <span className={`transition duration-700 ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
                     <ol className='text-white'>
                         
                        {topics.map((data) => (
-                        <li>
-                            <span className='inline-block hover:underline cursor-pointer'>{data.topic}</span>
+                        <li key={data.id}>
+                            <span onClick={() => getTopicWiseSnippets(data.topic)} 
+                            className={`inline-block hover:underline cursor-pointer p-0.5 font-semibold rounded-md 
+                            ${currentSelectedTopic === data.topic && (currentMode === "tech" ? `bg-gradient-to-r from-cyan-500 to-blue-500` : 'bg-gradient-to-r from-red-600 to-orange-400')}`}>
+                                
+                                {data.topic}
+                            
+                            </span>
                         </li>
                        )) }
                     
@@ -117,7 +159,7 @@ function Home() {
                 </div>
 
                 {/* MessageForm with smooth transition */}
-                <div className={`mb-10 transition-all duration-500 ease-in-out transform ${messageBox ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
+                <div className={`mt-2 mb-10 transition-all duration-500 ease-in-out transform ${messageBox ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
                     {messageBox && <MessageForm closeMessageBox={() => setMessageBox(false)} />}
                 </div>
                 
