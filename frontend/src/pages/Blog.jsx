@@ -27,7 +27,7 @@ function Blog() {
             try{
                 setError(false)
                 setIsLoading(true)
-                const response = await axios.get(`/api/v1/${category}/`, {
+                const response = await axios.get(currentMode ? (conf.FRONTEND_TECH_BLOG_URL):(conf.FRONTEND_LIFE_BLOG_URL), {
                     headers: {
                       "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                       "id": id 

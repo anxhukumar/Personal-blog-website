@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faSquareXmark, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { AdminDropdown} from '../../components'
 import axios from "axios"
+import conf from '../../conf/conf'
 
 function Messages() {
 
@@ -18,7 +19,7 @@ function Messages() {
         const fetchMessagePreview= async() => {
         try{
             const token = localStorage.getItem('token');
-            const response = await axios.get("/api/v1/admin/messagesPreview", {
+            const response = await axios.get(conf.FRONTEND_ADMIN_GET_MESSAGE_PREVIEW_URL, {
                 headers: {
                     "authorization": `Bearer ${token}` 
                 }
@@ -36,7 +37,7 @@ function Messages() {
         try{
 
             const token = localStorage.getItem('token');
-            const response = await axios.get(`/api/v1/admin/message?id=${id}`, {
+            const response = await axios.get(`${conf.FRONTEND_ADMIN_GET_MESSAGE_URL}?id=${id}`, {
                 headers: {
                     "authorization": `Bearer ${token}` 
                 }
@@ -50,7 +51,7 @@ function Messages() {
   const deleteMsg = async(id) => {
     try{
         const token = localStorage.getItem('token');
-        const deleteMsg = await axios.delete(`/api/v1/admin/deleteMsg?id=${id}`, {
+        const deleteMsg = await axios.delete(`${conf.FRONTEND_ADMIN_DELETE_MESSAGE_URL}?id=${id}`, {
             headers: {
                 "authorization": `Bearer ${token}` 
             }
@@ -68,7 +69,7 @@ function Messages() {
             read:true
         }))
         const token = localStorage.getItem('token');
-        const updateRead = await axios.patch(`/api/v1/admin/markAsRead`, {id}, {
+        const updateRead = await axios.patch(conf.FRONTEND_ADMIN_MARK_MESSAGE_AS_READ_URL, {id}, {
             headers: {
                 "authorization": `Bearer ${token}` 
             }

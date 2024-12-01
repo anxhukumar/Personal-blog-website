@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareCheck, faSquareXmark } from '@fortawesome/free-solid-svg-icons';
+import conf from '../../conf/conf'
 
 
 function Signup() {
@@ -43,7 +44,7 @@ function Signup() {
 
     try{
       if (formData.password !== formData.confirmPassword) {return setFinalMsgToUser("Passwords don't match")}
-      const data = await axios.post("/api/v1/admin/register", formData);
+      const data = await axios.post(conf.FRONTEND_ADMIN_REGISTER_URL, formData);
       const backendMsg = data.data.msg;
       //conditions to show success or failure message to user
       if(backendMsg==="successful") {setFinalMsgToUser("successful"); setTimeout(() => (navigate("/admin/login")), 2000); }

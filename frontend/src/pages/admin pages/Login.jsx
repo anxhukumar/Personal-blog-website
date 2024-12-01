@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import conf from '../../conf/conf'
 
 
 function Login() {
@@ -36,7 +37,7 @@ function Login() {
     e.preventDefault();
 
     try{
-      const response = await axios.post("/api/v1/admin/login", loginData);
+      const response = await axios.post(conf.FRONTEND_ADMIN_LOGIN_URL, loginData);
       const backendMsg = response.data.status || response.data.msg;
       //Conditions to show user if there is any error
       if (backendMsg==="Logged in") {

@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { postMessage } from "../controllers/messageController.js";
 import { rateLimiter } from "../middlewares/rateLimiter.js";
+import { messageSubmit } from "../config/dotenv.js";
 
 
 export const messages = Router();
 
-const messageRateLimiter = rateLimiter(60, 2)
+const messageRateLimiter = rateLimiter(60, 10)
 
-messages.post("/submit", messageRateLimiter, postMessage);
+messages.post(messageSubmit, messageRateLimiter, postMessage);

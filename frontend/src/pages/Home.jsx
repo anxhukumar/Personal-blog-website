@@ -49,13 +49,13 @@ function Home() {
         const blogSnippetData = async() => {
             try{
             const [snippetResponse, countResponse] = await Promise.all([ 
-            axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+            axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_HOME_URL):(conf.FRONTEND_LIFE_BLOG_HOME_URL), {
                 headers: {
                   "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                   "numberOfData": 10
                 }
               }),
-            axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
+            axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_COUNT_URL):(conf.FRONTEND_LIFE_BLOG_COUNT_URL), {
                 headers: {
                   "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                 }
@@ -73,7 +73,7 @@ function Home() {
     useEffect(() => {
         const fetchTopics = async() => {
             try{
-                const response = await axios.get(`/api/v1/${currentMode}/getTopics`, {
+                const response = await axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_TOPICS_URL):(conf.FRONTEND_LIFE_BLOG_TOPICS_URL), {
                     headers: {
                       "datasourcekey": `${conf.DATA_SOURCE_KEY}`
                     }
@@ -92,14 +92,14 @@ function Home() {
         setNumberOfData(newLimit)
         try{
             const [snippetResponse, countResponse] = await Promise.all([ 
-                axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+                axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_HOME_URL):(conf.FRONTEND_LIFE_BLOG_HOME_URL), {
                     headers: {
                       "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                       "numberOfData": newLimit,
                       "topic": currentSelectedTopic
                     }
                   }),
-                axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
+                axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_COUNT_URL):(conf.FRONTEND_LIFE_BLOG_COUNT_URL), {
                     headers: {
                       "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                       "topic": currentSelectedTopic
@@ -122,14 +122,14 @@ function Home() {
 
         try{
         const [snippetResponse, countResponse] = await Promise.all([ 
-        axios.get(currentMode==="tech" ? (conf.TECH_BLOG_SNIPPET_URL):(conf.LIFE_BLOG_SNIPPET_URL), {
+        axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_HOME_URL):(conf.FRONTEND_LIFE_BLOG_HOME_URL), {
             headers: {
                 "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                 "numberOfData": 10,
                 "topic": topic
             }
             }),
-        axios.get(currentMode==="tech" ? ("/api/v1/tech/totalCount"):("/api/v1/life/totalCount"), {
+        axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_COUNT_URL):(conf.FRONTEND_LIFE_BLOG_COUNT_URL), {
             headers: {
                 "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                 "topic": topic
@@ -163,7 +163,7 @@ function Home() {
                 setIsSearching(true)
                 let finalData;
                 if(debouncedInput) {
-                    const response = await axios.get(`/api/v1/${currentMode}/search?q=${debouncedInput}`, {
+                    const response = await axios.get(currentMode==="tech" ? (`${conf.FRONTEND_TECH_BLOG_SEARCH_URL}?q=${debouncedInput}`):(`${conf.FRONTEND_LIFE_BLOG_SEARCH_URL}?q=${debouncedInput}`), {
                         headers: {
                           "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                         }
@@ -194,7 +194,7 @@ function Home() {
                         <ul className='flex flex-col gap-2'>
                             {!searchError ? (
                                 searchResults.map((data) => (
-                                    <Link to="/blog" key={data._id} state={{id: data._id, category: data.category}}>
+                                    <Link to={`/blog/${data.category.toLowerCase()}/${data._id}`} key={data._id}>
                                         <li key={data._id} className='text-black text-sm font-medium inline-block hover:underline cursor-pointer p-1'>
                                             {data.title}
                                         </li>

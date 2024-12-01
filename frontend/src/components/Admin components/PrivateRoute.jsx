@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 import { Loading } from '..';
+import conf from '../../conf/conf';
 
 function PrivateRoute({page}) {
 
@@ -14,7 +15,7 @@ function PrivateRoute({page}) {
         const verifyToken = async() => {
             try{
                 const token = localStorage.getItem('token');
-                const response = await axios.post("/api/v1/admin/verify", {}, {
+                const response = await axios.post(conf.FRONTEND_ADMIN_VERIFY_TOKEN_URL, {}, {
                 headers: {
                     "authorization": `Bearer ${token}` 
                 }

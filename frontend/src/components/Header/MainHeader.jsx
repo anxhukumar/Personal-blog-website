@@ -48,7 +48,7 @@ function MainHeader() {
     
     try {
       setEmailErrorMessage("none")
-      const response = await axios.post("/api/v1/mailing-list/submit", emailData, {
+      const response = await axios.post(conf.FRONTEND_MAIL_SUBMIT_URL, emailData, {
         headers: {
           "datasourcekey": `${conf.DATA_SOURCE_KEY}` 
         }

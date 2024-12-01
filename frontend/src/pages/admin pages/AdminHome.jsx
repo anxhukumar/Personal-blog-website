@@ -24,7 +24,7 @@ function AdminHome() {
       setSnippetIsLoading(true)
       setBlogSnippetError(false)
       try{
-        const response = await axios.get(blogCategory==="TECH" ? ("/api/v1/tech/home") : ("/api/v1/life/home"), {
+        const response = await axios.get(blogCategory==="TECH" ? (conf.FRONTEND_TECH_BLOG_HOME_URL) : (conf.FRONTEND_LIFE_BLOG_HOME_URL), {
           headers: {
             "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
             "getall": true 
@@ -44,7 +44,7 @@ function AdminHome() {
     try{
       setBlogSnippetError(false)
       const token = localStorage.getItem('token')
-      const response = await axios.get(`/api/v1/admin/getBlogById`, {
+      const response = await axios.get(conf.FRONTEND_ADMIN_GET_BLOG_BY_ID_URL, {
         headers: {
           "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
           "id": id  ,
@@ -89,7 +89,7 @@ useEffect(() => {
           const token = localStorage.getItem('token');
           let finalData;
           if(debouncedInput) {
-              const response = await axios.get(`/api/v1/admin/blog-search?q=${debouncedInput}`, {
+              const response = await axios.get(`${conf.FRONTEND_ADMIN_SEARCH_BLOGS_URL}?q=${debouncedInput}`, {
                   headers: {
                     "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
                     "authorization": `Bearer ${token}`

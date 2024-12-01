@@ -33,7 +33,7 @@ function MessageForm({closeMessageBox}) {
   const handleSubmit = async(e) => {
     e.preventDefault();
     try{
-      const response = await axios.post("/api/v1/message/submit", formData, {
+      const response = await axios.post(conf.FRONTEND_MESSAGE_SUBMIT_URL, formData, {
         headers: {
           "datasourcekey": `${conf.DATA_SOURCE_KEY}` 
         }
@@ -41,7 +41,7 @@ function MessageForm({closeMessageBox}) {
       
       const backendMsg = response.data.msg;
      
-      if (backendMsg==="successful") {setFinalMsgToUser("successful"); setTimeout(() => setFinalMsgToUser("none"), 3000)}
+      if (backendMsg==="successful") {setFinalMsgToUser("successful"); setFormData({email: "", message: ""}); setTimeout(() => setFinalMsgToUser("none"), 3000)}
        
           
     }catch(error){

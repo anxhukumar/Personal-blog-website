@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import {faSquareXmark, faTrash} from "@fortawesome/free-solid-svg-icons"
 import axios from "axios"
 import DOMPurify from "dompurify"
+import conf from '../../conf/conf'
 
 
 function MainTextEditor({oldBlogData}) {
@@ -59,7 +60,7 @@ function MainTextEditor({oldBlogData}) {
       setBlogSaveError(false)
       const sanitizedMainContent = DOMPurify.sanitize(formData.mainContent);
       const token = localStorage.getItem('token');
-      const submitBlog = await axios.post("/api/v1/admin/submit", {
+      const submitBlog = await axios.post(conf.FRONTEND_ADMIN_CREATE_BLOG_URL, {
         ...formData,
         mainContent: sanitizedMainContent
       }, {
@@ -87,7 +88,7 @@ function MainTextEditor({oldBlogData}) {
       setBlogSaveError(false)
       const sanitizedMainContent = DOMPurify.sanitize(formData.mainContent);
       const token = localStorage.getItem('token');
-      const updateBlog = await axios.patch("/api/v1/admin/update", {
+      const updateBlog = await axios.patch(conf.FRONTEND_ADMIN_UPDATE_BLOG_URL, {
         ...formData,
         mainContent: sanitizedMainContent
       }, {
@@ -113,7 +114,7 @@ function MainTextEditor({oldBlogData}) {
       setBlogSaveError(false)
       const id = oldBlogData._id;
       const token = localStorage.getItem('token')
-      const deleteBlog = await axios.delete(`/api/v1/admin/delete/${id}`, {
+      const deleteBlog = await axios.delete(`${conf.FRONTEND_ADMIN_DELETE_BLOG_URL}${id}`, {
         headers: {
           "authorization": `Bearer ${token}`
         }

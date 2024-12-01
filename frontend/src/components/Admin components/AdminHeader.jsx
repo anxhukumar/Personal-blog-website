@@ -4,6 +4,7 @@ import { AdminSolidBtn, Logo } from ".."
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMessage, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
+import conf from '../../conf/conf'
 
 
 function AdminHeader() {
@@ -15,7 +16,7 @@ function AdminHeader() {
   useEffect(() => {
       const getMsgCount = async() => {
       const token = localStorage.getItem('token');
-      const response = await axios.get("/api/v1/admin/message-count", {
+      const response = await axios.get(conf.FRONTEND_ADMIN_MESSAGE_COUNT_URL, {
         headers: {
             "authorization": `Bearer ${token}` 
         }
