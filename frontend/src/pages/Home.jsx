@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux'
 import axios from "axios"
 import conf from "../conf/conf"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import { useDebounce } from "@uidotdev/usehooks";
+import { Link } from 'react-router-dom'
 
 
 
@@ -22,6 +24,18 @@ function Home() {
     const [topics, setTopics] = useState([])
 
     const [currentSelectedTopic, setCurrentSelectedTopic] = useState("");
+
+    //State to store the search bar input
+    const [searchInput, setSearchInput] = useState("");
+
+    const [isSearching, setIsSearching] = useState(false);
+
+    //Store the value of search result
+    const [searchResults, setSearchResults] = useState([])
+    const [searchError, setSearchError] = useState(false)
+
+    //Const to store the debounced value
+    const debouncedInput = useDebounce(searchInput, 900);
     
     useEffect(() => {
         setSnippet([]);
@@ -130,14 +144,81 @@ function Home() {
         }
         
     }
+
+    const handleChange = (e) => {
+        setSearchInput(e.target.value);
+    }
+
+    useEffect(() => {
+        
+        //exit this in the first render and if not input is provided
+        if (!debouncedInput) {
+            setSearchResults([]);
+            setSearchError(false);
+            return;
+        }
+        const searchSnippet = async() => {
+            try{
+                setSearchError(false)
+                setIsSearching(true)
+                let finalData;
+                if(debouncedInput) {
+                    const response = await axios.get(`/api/v1/${currentMode}/search?q=${debouncedInput}`, {
+                        headers: {
+                          "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                        }
+                      })
+                    finalData = response.data;
+                }
+                setSearchResults(finalData || [])
+            }catch{
+                setSearchError(true)
+            }finally{
+                setIsSearching(false)
+            }
+        }
+        searchSnippet();
+    }, [debouncedInput, currentMode])
         
         
 
   return (
     <>
         <div className='flex min-h-screen mt-10 mx-32'>
-            <div className='flex flex-col min-w-80 h-3/4'>
-                <SearchBar />
+            <div className='flex flex-col min-w-80 h-3/4 relative z-0'>
+                
+                <div className='flex flex-col items-center'>
+                    <SearchBar onChange={handleChange} value={searchInput} />
+                   {searchInput.length > 0 && 
+                    (<div className='bg-white rounded-md max-h-[550px] w-72 mt-11 absolute z-10 opacity-85 overflow-y-auto custom-scrollbar'>
+                        <ul className='flex flex-col gap-2'>
+                            {!searchError ? (
+                                searchResults.map((data) => (
+                                    <Link to="/blog" key={data._id} state={{id: data._id, category: data.category}}>
+                                        <li key={data._id} className='text-black text-sm font-medium inline-block hover:underline cursor-pointer p-1'>
+                                            {data.title}
+                                        </li>
+                                    </Link>
+                                    )
+                                )
+                            ):(
+                                <li className='text-black font-semibold inline-block cursor-pointer p-1'>
+                                    Server error
+                                </li>
+                            )
+                            }
+                        </ul>
+                        {/* Show a loader while loading the search results */}
+                        {isSearching && (
+                            <div className='h-10 flex justify-center'>
+                                <FontAwesomeIcon icon={faSpinner} className='size-8'  style={{color: "#0a0a0a",}} spin />
+                            </div>
+                                )
+                            }
+                    
+                    </div>)}
+                </div>
+                
                 
                 <div className='flex flex-col gap-1 mt-10'>
                     <span className={`transition duration-700 ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
