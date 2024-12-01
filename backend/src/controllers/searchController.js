@@ -9,6 +9,7 @@ export const searchTechBlog = async (req, res) => {
         if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
         const response = await blogData.find({
+            isPublished: true,
             category: "Tech",
             $or: [
                 { title: { $regex: searchTerm, $options: 'i' } },
@@ -30,6 +31,7 @@ export const searchLifeBlog = async (req, res) => {
         if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
         const response = await blogData.find({
+            isPublished: true,
             category: "Life",
             $or: [
                 { title: { $regex: searchTerm, $options: 'i' } },
@@ -52,7 +54,7 @@ export const searchAnyBlog = async (req, res) => {
                 { overview: { $regex: searchTerm, $options: 'i' } },
                 { mainContent: { $regex: searchTerm, $options: 'i' } }
               ]
-        }).select(`title`);
+        }).select(`title _id category`);
         res.json(response);
     }catch(err) {
         res.status(500).json({ error: 'An error occurred while searching' });

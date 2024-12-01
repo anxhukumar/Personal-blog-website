@@ -4,14 +4,14 @@ import { faPenNib } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-function HomeBlogSnippet({title, overview, datePublished, state}) {
+function HomeBlogSnippet({title, overview, datePublished, link}) {
 
   const currentMode = useSelector((state) => state.modeSwitch.mode);
 
   return (
     <div className='w-3/4 mb-16 flex flex-col gap-4 animate-fade-in-up'>
         
-        <Link to="/blog" state={state}>
+        <Link to={link}>
           <h1 className='text-white font-bold text-3xl hover:underline cursor-pointer'>{title}</h1>
         </Link>
         

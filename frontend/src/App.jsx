@@ -16,7 +16,7 @@ function App() {
       <>
         <Route element={<Layout />}>
           <Route path='/' element={<Home />} />
-          <Route path='blog' element={<Blog />} />
+          <Route path='blog/:category/:id' element={<Blog />} />
         </Route>
 
         <Route element={<AdminLayout />}>

@@ -5,14 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleArrowRight, faSquareCheck, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 import { useSelector, useDispatch } from "react-redux";
 import { techMode, lifeMode } from "../../features/modeSwitch/modeSwitchSlice"
-import { useLocation } from "react-router-dom";
-import { Link } from 'react-router-dom'
+import { Link, useMatch } from 'react-router-dom'
 import conf from '../../conf/conf'
 import axios from "axios"
 
 function MainHeader() {
   
-  const location = useLocation()
+  const isBlogPage = useMatch("/blog/:category/:id");
   const currentMode = useSelector((state) => state.modeSwitch.mode)
   const dispatch = useDispatch()
   const [emailInputBox, setEmailInputBox] = useState(false)
@@ -94,7 +93,7 @@ function MainHeader() {
         
         <div className='flex'>
           
-          {location.pathname=="/blog" ? (
+          {isBlogPage ? (
             <FixedModeSwitch />
           ) : (
             <ModeSwitch switchTechMode={() => dispatch(techMode())} 

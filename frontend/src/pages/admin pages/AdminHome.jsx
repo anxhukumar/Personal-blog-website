@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSpinner, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 import { AdminDropdown, MainTextEditor, SearchBar } from '../../components'
 import axios from "axios"
 import conf from '../../conf/conf'
+import { useDebounce } from "@uidotdev/usehooks";
 
 function AdminHome() {
 
@@ -42,10 +43,12 @@ function AdminHome() {
   const getFullBlog = async(id) => {
     try{
       setBlogSnippetError(false)
-      const response = await axios.get(`/api/v1/${blogCategory}/`, {
+      const token = localStorage.getItem('token')
+      const response = await axios.get(`/api/v1/admin/getBlogById`, {
         headers: {
           "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
-          "id": id  
+          "id": id  ,
+          "authorization": `Bearer ${token}`
         }
       });
       setBlog(response.data);
@@ -53,6 +56,57 @@ function AdminHome() {
         setBlogSnippetError(true)
     }
   }
+
+  //State to store the search bar input
+  const [searchInput, setSearchInput] = useState("");
+
+  const [isSearching, setIsSearching] = useState(false);
+
+  //Store the value of search result
+  const [searchResults, setSearchResults] = useState([])
+  const [searchError, setSearchError] = useState(false)
+
+  //Const to store the debounced value
+  const debouncedInput = useDebounce(searchInput, 900);
+
+
+  const handleSearchChange = (e) => {
+    setSearchInput(e.target.value);
+}
+
+useEffect(() => {
+        
+  //exit this in the first render and if not input is provided
+  if (!debouncedInput) {
+      setSearchResults([]);
+      setSearchError(false);
+      return;
+  }
+  const searchSnippet = async() => {
+      try{
+          setSearchError(false)
+          setIsSearching(true)
+          const token = localStorage.getItem('token');
+          let finalData;
+          if(debouncedInput) {
+              const response = await axios.get(`/api/v1/admin/blog-search?q=${debouncedInput}`, {
+                  headers: {
+                    "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
+                    "authorization": `Bearer ${token}`
+                  }
+                })
+              finalData = response.data;
+          }
+          setSearchResults(finalData || [])
+      }catch{
+          setSearchError(true)
+      }finally{
+          setIsSearching(false)
+      }
+  }
+  searchSnippet();
+}, [debouncedInput])
+
 
   return (
   <div className='flex min-h-screen mt-10 mx-32'>
@@ -69,8 +123,42 @@ function AdminHome() {
         <FontAwesomeIcon icon={faSquareXmark} style={{color: "#000000",}} onClick={() => setToggleSidebar(false)} className='size-10 ml-0.5 mt-1 mb-3' />
         
         <div className='ml-14 mb-4'>
-          <SearchBar className="w-96"/>
+          
+          <div className='flex flex-col'>
+             <SearchBar className="w-96" onChange={handleSearchChange} value={searchInput} />
+
+             {searchInput.length > 0 && 
+                    (<div className='bg-white rounded-md max-h-[550px] w-96 mt-11 absolute z-10 opacity-90 overflow-y-auto custom-scrollbar'>
+                        <ul className='flex flex-col gap-2'>
+                            {searchError === false ? (
+                                searchResults.map((data) => (
+                                    
+                                        <li onClick={() => getFullBlog(data._id)} key={data._id} className={`${data.category==="Tech" ? (`text-[#1C5CFF]`):(`text-[#8C1936]`) } text-md font-medium inline-block hover:underline cursor-pointer p-1`}>
+                                            {data.title}
+                                        </li>
+                                    
+                                    )
+                                )
+                            ):(
+                                <li className='text-black font-semibold inline-block cursor-pointer p-1'>
+                                    Server error
+                                </li>
+                            )
+                            }
+                        </ul>
+                        {/* Show a loader while loading the search results */}
+                        {isSearching && (
+                            <div className='h-10 flex justify-center'>
+                                <FontAwesomeIcon icon={faSpinner} className='size-8'  style={{color: "#0a0a0a",}} spin />
+                            </div>
+                                )
+                            }
+                    
+                    </div>)}
+          </div>
+          
           <AdminDropdown className='mt-4' menuClassName='absolute' option1="TECH" option2="LIFE" oneOnClick={() => setBlogCategory("TECH")} twoOnClick={() => setBlogCategory("LIFE")} label={blogCategory=="TECH" ? "TECH" : "LIFE"}  />
+        
         </div>
         <div className='h-[900px] overflow-y-auto custom-scrollbar'>
               <ol className='flex flex-col gap-2'>

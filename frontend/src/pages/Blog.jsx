@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom';
 import { Loading } from '../components';
 import axios from "axios"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquareXmark } from '@fortawesome/free-solid-svg-icons';
 import conf from '../conf/conf';
 import DOMPurify from 'dompurify';
+import { techMode, lifeMode } from "../features/modeSwitch/modeSwitchSlice"
 
 function Blog() {
 
-    const location = useLocation();
-    const {id, category} = location.state || {};
+    const dispatch = useDispatch();
+
+    const {id, category} = useParams() || {};
+
 
     const [blogData, setBlogData] = useState({})
 
@@ -39,6 +42,15 @@ function Blog() {
         }
         fetchBlog();
     }, [id, category])
+
+    //change the currentMode with redux state in case of separate tabs
+    useEffect(() => {
+        if (category === "tech") {
+            dispatch(techMode());
+        } else if (category === "life") {
+            dispatch(lifeMode());
+        }
+    }, [category]);
    
     return (
    

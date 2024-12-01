@@ -260,7 +260,7 @@ function Home() {
                     <>
                         {snippet.map((data) => (
                             data.isPublished && (
-                                <HomeBlogSnippet state={{id: data._id, category: data.category.toLowerCase()}} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
+                                <HomeBlogSnippet link={`/blog/${data.category.toLowerCase()}/${data._id}`} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
                             )
                             
                         ))}

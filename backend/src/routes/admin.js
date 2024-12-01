@@ -17,6 +17,7 @@ admin.get("/blog/", checkIfLoggedIn, getBlogById)//fill blog data in editor to u
 admin.patch("/update", checkIfLoggedIn, updateBlog)//update the blog
 admin.delete("/delete/:id", checkIfLoggedIn, deleteBlog) //delete a blog
 admin.get("/blog-search", checkIfLoggedIn, searchAnyBlog) //searches for the blog titles
+admin.get("/getBlogById", checkIfLoggedIn, getBlogById) //get published or unpublished specific blog with id
 
 admin.get("/messagesPreview", checkIfLoggedIn, messagePreview ) //get the few lines of all the messages
 admin.get("/message", checkIfLoggedIn, getMessageById) //get the full data of messages with the id

@@ -50,7 +50,7 @@ export const getTechBlogSnippet = async(req, res) => {
    const limit = parseInt(req.headers.numberofdata);
    const topic = req.headers.topic;
    const getAll= req.headers.getall;
-   const criteria = topic ? ({category: "Tech", "tags.0": topic}):({category: "Tech"})
+   const criteria = topic ? ({category: "Tech", "tags.0": topic, isPublished: true}):({category: "Tech", isPublished: true})
    let response= await blogData.find(criteria).select('title overview datePublished isPublished category').skip(getAll ? (0):(limit-10)).limit(getAll ? (0):(10));
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
@@ -74,7 +74,7 @@ export const getLifeBlogSnippet = async(req, res) => {
     const limit = parseInt(req.headers.numberofdata);
     const topic = req.headers.topic;
     const getAll= req.headers.getall;
-    const criteria = topic ? ({category: "Life", "tags.0": topic}):({category: "Life"})
+    const criteria = topic ? ({category: "Life", "tags.0": topic, isPublished: true}):({category: "Life", isPublished: true})
     let response= await blogData.find(criteria).select('title overview datePublished isPublished category').skip(getAll ? (0):(limit-10)).limit(getAll ? (0):(10));
     response = response.map(blog => {
         const formattedDate = convertDateFormat(blog.datePublished);
@@ -89,6 +89,7 @@ export const getLifeBlogSnippet = async(req, res) => {
 }
 }
 
+//get published and unpublished blogs (both) by id
 export const getBlogById = async(req, res) => {
     try{
         
@@ -100,6 +101,27 @@ export const getBlogById = async(req, res) => {
         return res.status(400).json({error: "Blog not found."})
     }
     let response = await blogData.findById(id);
+    response = response.toObject();
+    const formattedDate = convertDateFormat(response.datePublished);
+    response.formattedDate=formattedDate;                                        
+    res.json(response);
+    }catch(err) {
+        res.status(500).json({error: "An error occurred while getting blog data."});
+    }
+}
+
+//get only published blogs by id
+export const getPublishedBlogById = async(req, res) => {
+    try{
+        
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+    const id=req.headers.id;
+    if (!id) {
+        return res.status(400).json({error: "Blog not found."})
+    }
+    let response = await blogData.findOne({ _id: id, isPublished: true });
     response = response.toObject();
     const formattedDate = convertDateFormat(response.datePublished);
     response.formattedDate=formattedDate;                                        
@@ -200,7 +222,7 @@ export const getTechBlogTopics = async(req, res) => {
     const authKey = req.headers.datasourcekey;
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
-    let response= await blogData.find({category:"Tech"}).select('_id, tags');
+    let response= await blogData.find({category:"Tech", isPublished: true}).select('_id, tags');
    
    const uniqueTags = [];
         const seenTags = new Set();
@@ -226,7 +248,7 @@ export const getLifeBlogTopics = async(req, res) => {
     const authKey = req.headers.datasourcekey;
     if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
     
-    let response= await blogData.find({category:"Life"}).select('_id, tags');
+    let response= await blogData.find({category:"Life", isPublished: true}).select('_id, tags');
     
     const uniqueTags = [];
     const seenTags = new Set();
