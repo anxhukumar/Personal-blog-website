@@ -139,11 +139,11 @@ function MainTextEditor({oldBlogData}) {
       <div>
         <form className='flex flex-col gap-5' onSubmit={Object.keys(oldBlogData).length>0 ? (handleUpdate):(handleNewSubmission)}>
             <div className='w-full'>
-                <textarea  type="text" name="title" value={formData.title} onChange={handleChange} placeholder='Title' className='bg-[#1E1F21] text-white w-full h-10 text-lg p-1 resize-none rounded-sm' />
+                <textarea  type="text" name="title" value={formData.title} onChange={handleChange} placeholder='Title' className='bg-[#1E1F21] text-white w-full h-10 text-lg p-1 resize-none rounded-sm font-headline font-bold' />
             </div>
             
             <div className='w-full'>
-            <textarea type="text" name="overview" value={formData.overview} onChange={handleChange}  placeholder='Overview' className='bg-[#1E1F21] text-white w-full h-40 text-lg p-1 resize-none rounded-sm ' />
+            <textarea type="text" name="overview" value={formData.overview} onChange={handleChange}  placeholder='Overview' className='bg-[#1E1F21] text-white w-full h-40 text-lg p-1 resize-none rounded-sm font-content ' />
             </div>
 
             <div className='w-full border-4'>
@@ -151,14 +151,14 @@ function MainTextEditor({oldBlogData}) {
             </div>
             
             <div className='w-full mb-5'>
-              <input type="text" name="tags" value={Array.isArray(formData.tags) ? formData.tags.join("|") : ""} onChange={handleChange}  placeholder='Tags' className='bg-[#1E1F21] text-white  w-full h-9 text-lg p-1 rounded-sm' />
+              <input type="text" name="tags" value={Array.isArray(formData.tags) ? formData.tags.join("|") : ""} onChange={handleChange}  placeholder='Tags' className='bg-[#1E1F21] text-white  w-full h-9 text-lg p-1 rounded-sm font-tags' />
               <span className="text-sm text-white mt-2 block">
               <span className="font-extrabold text-lg mr-1 text-orange-600">*</span>Use <span className="font-extrabold">|</span> to separate tags if giving more than one. The first tag will always be chosen as the topic under which your blog will show up.
               </span>
             </div>
             
             <div className='w-full'>
-              <select className='bg-[#1E1F21] text-white w-28 h-7 font-bold text-center rounded-sm ' name="category" value={formData.category} onChange={handleChange}>
+              <select className='bg-[#1E1F21] text-white w-28 h-9 font-bold font-content text-center rounded-sm ' name="category" value={formData.category} onChange={handleChange}>
                 <option value="" disabled>Category</option>
                 <option className='font-bold text-center rounded-sm' value="Tech">TECH</option>
                 <option className='font-bold text-center rounded-sm' value="Life">LIFE</option>

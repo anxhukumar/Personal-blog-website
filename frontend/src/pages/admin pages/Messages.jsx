@@ -135,26 +135,34 @@ function Messages() {
                     ):(
                       <>
                         <div className='m-5 flex flex-col gap-5'>
-                            <div>
+                            <div className='flex items-center'>
                                 <span className='font-extrabold ml-[30px] mr-5'>EMAIL:</span>
-                                {message.email}
+                                
+                                <div className='font-content'>
+                                    {message.email}
+                                </div>
+                                
                             </div>
                             
-                            <div>
+                            <div className='flex items-center'>
                                 <span className='font-extrabold ml-[37px] mr-5'>DATE:</span>
-                                {message.formattedDate}    
+                                
+                                <div className='font-content'>
+                                    {message.formattedDate}
+                                </div>    
+                            
                             </div>
                             
                             <div className='flex'>
                                 <span className='font-extrabold mr-5'>MESSAGE:</span>
-                                <div>
+                                <div className='h-40 font-content'>
                                     {message.message}
                                 </div>                   
                             </div>
 
                         </div>
                         
-                        <div className='h-9 mt-36 flex justify-center'>
+                        <div className='h-9 mt-8 flex justify-center'>
                             <button onClick={() => {markAsRead(message._id)}} className={`h-8 w-32 font-bold rounded-sm hover:outline ${message.read === true ? (`bg-green-900`):(`bg-blue-900`)}`}>
                                 {message.read === true ? (
                                     <FontAwesomeIcon icon={faCheck} style={{color: "#ffffff",}} />

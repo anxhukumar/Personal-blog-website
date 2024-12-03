@@ -176,7 +176,7 @@ useEffect(() => {
                     </li>):(
                         blogSnippet.map((data) => (
                           <li key={data._id} className='text-white text-md ml-14 mb-3'>
-                            <span onClick={() => getFullBlog(data._id)} className='hover:underline cursor-pointer w-fit'>
+                            <span onClick={() => getFullBlog(data._id)} className='hover:underline cursor-pointer w-fit font-headline font-bold'>
                                 {data.title}
                             </span>
                           </li>

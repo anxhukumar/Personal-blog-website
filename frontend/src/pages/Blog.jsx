@@ -66,21 +66,21 @@ function Blog() {
            ):(
             <>
              <div className={`mx-40`}>
-                <h1 className='text-white font-bold text-3xl mb-10'>
+                <h1 className='text-white font-headline font-extrabold text-4xl mb-10'>
                     {blogData.title}
                 </h1>
             </div>
 
             <div className={`mx-40 py-3 text-sm text-gray-400 mb-8 space-y-1 border-y-4 ${currentMode=="tech" ? "border-[#1C5CFF]" : "border-[#8C1936]" }`}>
-                <p className="font-medium ">{blogData.formattedDate}</p>
-                <p className="font-medium ">{blogData.readingTime}</p>
+                <p className="font-headline font-bold ">{blogData.formattedDate}</p>
+                <p className="font-headline font-bold ">{blogData.readingTime}</p>
             </div>
             
             {/* CONTAINER OF SANITIZED HTML CONTENT */}
                 <div className='mx-40 mb-20'>
                         
                         <div
-                            className='text-[#EEEEEE] text-lg' 
+                            className='text-[#EEEEEE] text-lg font-content' 
                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(blogData.mainContent)}}
                         />
                 </div>

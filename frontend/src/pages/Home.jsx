@@ -195,7 +195,7 @@ function Home() {
                             {!searchError ? (
                                 searchResults.map((data) => (
                                     <Link to={`/blog/${data.category.toLowerCase()}/${data._id}`} key={data._id}>
-                                        <li key={data._id} className='text-black text-sm font-medium inline-block hover:underline cursor-pointer p-1'>
+                                        <li key={data._id} className='text-black text-sm font-headline font-bold inline-block hover:underline cursor-pointer p-1'>
                                             {data.title}
                                         </li>
                                     </Link>
@@ -221,13 +221,13 @@ function Home() {
                 
                 
                 <div className='flex flex-col gap-1 mt-10'>
-                    <span className={`transition duration-700 ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
+                    <span className={`transition duration-700 font-bold ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
                     <ol className='text-white'>
                         
                        {topics.map((data) => (
                         <li key={data.id}>
                             <span onClick={() => getTopicWiseSnippets(data.topic)} 
-                            className={`inline-block hover:underline cursor-pointer p-0.5 font-semibold rounded-md 
+                            className={`inline-block hover:underline cursor-pointer p-0.5 font-light font-tags rounded-md 
                             ${currentSelectedTopic === data.topic && (currentMode === "tech" ? `bg-gradient-to-r from-cyan-500 to-blue-500` : 'bg-gradient-to-r from-red-600 to-orange-400')}`}>
                                 
                                 {data.topic}

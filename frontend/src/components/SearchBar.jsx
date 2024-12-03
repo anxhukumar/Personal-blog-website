@@ -14,7 +14,7 @@ function SearchBar({className, onChange, value}) {
         value={value}
         type="text"
         placeholder="Search..."
-        className={`h-10 pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-gray-400 ${className}`}
+        className={`font-input font-normal h-10 pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:border-gray-400 ${className}`}
         />
     </div>
   )

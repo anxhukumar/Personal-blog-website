@@ -113,7 +113,7 @@ function MainHeader() {
               
               <form onSubmit={handleEmailSubmit}>
                 <input value={emailData.email} onChange={handleChange} type='email' placeholder='Email'
-                className='transition h-9 rounded-l-sm font-sans focus:outline-none focus:border-gray-400' />
+                className='transition h-9 p-1 rounded-l-sm focus:outline-none focus:border-gray-400 font-input' />
                
                <SolidBtn
                 type="submit"

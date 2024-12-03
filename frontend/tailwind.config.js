@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        content: ['Inter', '-apple-system', 'system-ui', 'BlinkMacSystemFont'],
+        headline: ['Manrope', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        input: ['Inter', '-apple-system', 'system-ui'],
+        tags: ['Inter', '-apple-system', 'system-ui'],
+      },
       animation: {
         'fade-in-up': 'fadeInUp 1s ease-out forwards',
       },

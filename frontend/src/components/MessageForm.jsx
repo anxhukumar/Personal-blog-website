@@ -103,9 +103,9 @@ function MessageForm({closeMessageBox}) {
         
         <form className='flex flex-col' onSubmit={handleSubmit}>
             <label htmlFor="email" className={`transition duration-700 rounded-t-lg text-center h-9 py-1 ${currentMode=="tech" ? "bg-[#1E1D42] text-[#1C5CFF]" : "bg-[#20090F] text-[#890929]"}`}>Your Email</label>
-            <input type="email" onChange={handleChange} value={formData.email} id="email" name="email" className='bg-[#36373A] text-white h-8' />
+            <input type="email" onChange={handleChange} value={formData.email} id="email" name="email" className='bg-[#36373A] text-white h-8 p-1 font-input' />
             <label htmlFor="message" className={`transition duration-700 text-center h-9 py-1 ${currentMode=="tech" ? "bg-[#1E1D42] text-[#1C5CFF]" : "bg-[#20090F] text-[#890929]"}`}>Message</label>
-            <textarea type="text" onChange={handleChange} value={formData.message} id="message" name="message" className='bg-[#36373A] text-white h-40 resize-none' />
+            <textarea type="text" onChange={handleChange} value={formData.message} id="message" name="message" className='bg-[#36373A] text-white h-40 p-1 resize-none font-input' />
             <button type="submit" className={`transition duration-700 rounded-b-lg text-center h-9 py-1 hover:font-extrabold ${currentMode=="tech" ? "bg-[#1E1D42] text-[#1C5CFF]" : "bg-[#20090F] text-[#890929]"}`}>Send</button>
         </form>
     </div>
