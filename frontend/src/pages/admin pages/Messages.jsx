@@ -18,11 +18,8 @@ function Messages() {
     useEffect(() => {
         const fetchMessagePreview= async() => {
         try{
-            const token = localStorage.getItem('token');
             const response = await axios.get(conf.FRONTEND_ADMIN_GET_MESSAGE_PREVIEW_URL, {
-                headers: {
-                    "authorization": `Bearer ${token}` 
-                }
+                withCredentials: true
             })
             setMessagesPreview(response.data)
            
@@ -35,12 +32,8 @@ function Messages() {
 
     const getFullMessage = async(id) => {
         try{
-
-            const token = localStorage.getItem('token');
             const response = await axios.get(`${conf.FRONTEND_ADMIN_GET_MESSAGE_URL}?id=${id}`, {
-                headers: {
-                    "authorization": `Bearer ${token}` 
-                }
+                withCredentials: true
             })
             setMessage(response.data)
         }catch{
@@ -50,11 +43,8 @@ function Messages() {
 
   const deleteMsg = async(id) => {
     try{
-        const token = localStorage.getItem('token');
         const deleteMsg = await axios.delete(`${conf.FRONTEND_ADMIN_DELETE_MESSAGE_URL}?id=${id}`, {
-            headers: {
-                "authorization": `Bearer ${token}` 
-            }
+            withCredentials: true
         })
         setMessagesPreview((prevMessage) => prevMessage.filter((message) => message.id !== id))
     }catch{
@@ -68,11 +58,8 @@ function Messages() {
             ...prevMessage,
             read:true
         }))
-        const token = localStorage.getItem('token');
-        const updateRead = await axios.patch(conf.FRONTEND_ADMIN_MARK_MESSAGE_AS_READ_URL, {id}, {
-            headers: {
-                "authorization": `Bearer ${token}` 
-            }
+       const updateRead = await axios.patch(conf.FRONTEND_ADMIN_MARK_MESSAGE_AS_READ_URL, {id}, {
+            withCredentials: true
         })
     }catch{
         setMessage((prevMessage) => ({

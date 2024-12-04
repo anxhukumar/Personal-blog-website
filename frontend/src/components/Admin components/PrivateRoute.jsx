@@ -14,17 +14,13 @@ function PrivateRoute({page}) {
 
         const verifyToken = async() => {
             try{
-                const token = localStorage.getItem('token');
                 const response = await axios.post(conf.FRONTEND_ADMIN_VERIFY_TOKEN_URL, {}, {
-                headers: {
-                    "authorization": `Bearer ${token}` 
-                }
+                    withCredentials: true
             })  
                 const isAllowed = response.data.exists;
                 if (isAllowed) {setIsAuthorized(true)}
                     else {navigate("/admin/login", {replace: true})}
             }catch{
-                console.log("Error occured while authorization")
                 navigate("/admin/login", {replace: true})
             }finally{
                 setLoading(false)

@@ -59,14 +59,11 @@ function MainTextEditor({oldBlogData}) {
     try{
       setBlogSaveError(false)
       const sanitizedMainContent = DOMPurify.sanitize(formData.mainContent);
-      const token = localStorage.getItem('token');
       const submitBlog = await axios.post(conf.FRONTEND_ADMIN_CREATE_BLOG_URL, {
         ...formData,
         mainContent: sanitizedMainContent
       }, {
-        headers: {
-          "authorization": `Bearer ${token}` 
-      }
+        withCredentials: true
       })
       setFormData({
         title: "",
@@ -87,14 +84,11 @@ function MainTextEditor({oldBlogData}) {
     try{
       setBlogSaveError(false)
       const sanitizedMainContent = DOMPurify.sanitize(formData.mainContent);
-      const token = localStorage.getItem('token');
       const updateBlog = await axios.patch(conf.FRONTEND_ADMIN_UPDATE_BLOG_URL, {
         ...formData,
         mainContent: sanitizedMainContent
       }, {
-        headers: {
-          "authorization": `Bearer ${token}` 
-      }
+        withCredentials: true
       })
       setFormData({
         title: "",
@@ -113,11 +107,8 @@ function MainTextEditor({oldBlogData}) {
     try{
       setBlogSaveError(false)
       const id = oldBlogData._id;
-      const token = localStorage.getItem('token')
       const deleteBlog = await axios.delete(`${conf.FRONTEND_ADMIN_DELETE_BLOG_URL}${id}`, {
-        headers: {
-          "authorization": `Bearer ${token}`
-        }
+        withCredentials: true
       })
       setFormData({
         title: "",

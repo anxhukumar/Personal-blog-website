@@ -43,13 +43,12 @@ function AdminHome() {
   const getFullBlog = async(id) => {
     try{
       setBlogSnippetError(false)
-      const token = localStorage.getItem('token')
       const response = await axios.get(conf.FRONTEND_ADMIN_GET_BLOG_BY_ID_URL, {
         headers: {
           "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
           "id": id  ,
-          "authorization": `Bearer ${token}`
-        }
+        },
+        withCredentials: true
       });
       setBlog(response.data);
       }catch{
@@ -86,14 +85,13 @@ useEffect(() => {
       try{
           setSearchError(false)
           setIsSearching(true)
-          const token = localStorage.getItem('token');
           let finalData;
           if(debouncedInput) {
               const response = await axios.get(`${conf.FRONTEND_ADMIN_SEARCH_BLOGS_URL}?q=${debouncedInput}`, {
                   headers: {
                     "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
-                    "authorization": `Bearer ${token}`
-                  }
+                  },
+                  withCredentials: true
                 })
               finalData = response.data;
           }

@@ -3,7 +3,6 @@ import { compareHash } from "../config/hash.js";
 import { jwtToken, jwtVerify } from "../config/jwtLogin.js";
 
 
-
 export const adminLogin = async (req, res) => {
     try{
     const signInData=req.body;
@@ -16,6 +15,12 @@ export const adminLogin = async (req, res) => {
     
     if (isCorrect) {
         const token=jwtToken(userName);
+        res.cookie('token', `Bearer ${token}`, {
+            httpOnly: true,            // Prevents JavaScript from accessing the cookie
+            sameSite: 'Strict',        // Prevents the cookie from being sent in cross-site requests
+            path: '/',                 // Cookie is accessible across the entire domain
+            maxAge: 86400 * 1000,             // Max age of 1 day in seconds (alternative to expires)
+          });
         res.json({status:"Logged in", token}); //this token needs to be saved on the client-side
     }else {
         res.json({msg:"Invalid password"})
@@ -30,7 +35,7 @@ export const adminLogin = async (req, res) => {
 
 export const checkIfLoggedIn = async (req, res, next) => {
     try{
-    const authData=req.headers.authorization; //get token from client side if it exists
+    const authData=req.cookies.token; //get token from client side if it exists
     const token=authData.split(' ')[1];
     if (!token) {
         return res.status(401).json({msg: "Unauthorized access, try login or sign up"});
@@ -54,7 +59,7 @@ export const checkIfLoggedIn = async (req, res, next) => {
 
 export const tokenVerification = async(req, res) => {
     try{
-        const authData=req.headers.authorization;
+        const authData=req.cookies.token;
         const token=authData.split(' ')[1];
         const userNameFromJwt = jwtVerify(token);
         const ifExists = await adminData.exists({
@@ -70,3 +75,16 @@ export const tokenVerification = async(req, res) => {
         return res.json({exists: false});
     }
 } 
+
+export const adminLogout = async(req, res) => {
+    try{
+        res.clearCookie('token', {
+            httpOnly: true,            
+            sameSite: 'Strict',        
+            path: '/',                             
+          });
+        res.json({status:"Logged out"}); 
+    }catch{
+        res.json({msg: "Error while logging out"})
+    }
+}

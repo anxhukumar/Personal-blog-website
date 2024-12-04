@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from 'cookie-parser';
 import { mainRouter } from "./src/routes/mainRouter.js";
 import { serverPort } from "./src/config/dotenv.js";
 
@@ -6,6 +7,8 @@ const app=express();
 const port=serverPort;
 
 app.use(express.json());
+app.use(cookieParser());
+
 
 app.use("/api/v1", mainRouter)
 

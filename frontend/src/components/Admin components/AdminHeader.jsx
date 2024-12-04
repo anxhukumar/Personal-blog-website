@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { AdminSolidBtn, Logo } from ".."
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMessage, faCircleArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faMessage, faCircleArrowLeft, faXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios"
 import conf from '../../conf/conf'
 
@@ -12,14 +12,12 @@ function AdminHeader() {
   const location = useLocation();
   const navigate = useNavigate();
   const [unreadMsgCount, setUnreadMsgCount] = useState(0);
+  const [logoutError, setLogoutError] = useState(false)
 
   useEffect(() => {
       const getMsgCount = async() => {
-      const token = localStorage.getItem('token');
       const response = await axios.get(conf.FRONTEND_ADMIN_MESSAGE_COUNT_URL, {
-        headers: {
-            "authorization": `Bearer ${token}` 
-        }
+        withCredentials: true
     })
       const unreadCount = response.data.unreadCount;
       setUnreadMsgCount(unreadCount)
@@ -33,7 +31,17 @@ function AdminHeader() {
 
   }, [location.pathname])
 
-
+  const logout = async() => {
+    try{
+      setLogoutError(false);
+      const logout = await axios.get(conf.FRONTEND_ADMIN_LOGOUT_URL, {
+        withCredentials: true
+      });
+      navigate("/admin/login", {replace: true});
+    }catch{
+      setLogoutError(true);
+    }
+  }
 
   return (
     <div className='flex justify-between mx-32 pt-4 pb-4 border-b-2 border-[#D9D9D9]'>
@@ -59,18 +67,25 @@ function AdminHeader() {
                 <FontAwesomeIcon icon={faMessage} style={{color: "#000000",}} className="size-8 mr-5"/>
                 <span className="text-red-700 font-extrabold absolute bottom-[12px] left-[21px]">{unreadMsgCount}</span>
               </div>
-            </Link>
+            </Link>   
             )}
           </div>
-        
-        {/* REMOVE JWT FORM LOCALSTORAGE WHEN LOGOUT IS PRESSED */}
-        {(location.pathname=="/admin" || location.pathname=="/admin/messages") && (
-          <AdminSolidBtn label="Logout" className="w-32 rounded-lg hover:text-red-700" 
-          onClick={() => {
-            localStorage.removeItem("token");
-            navigate("/admin/login", {replace: true})
-          }} />
-        )}
+          <div className='flex items-center'>
+            
+            {/* REMOVE JWT FROM COOKIES WHEN LOGOUT IS PRESSED */}
+            {logoutError && (
+              <div className='flex items-center justify-center bg-black mr-3 p-0.5 rounded-md'>
+                <FontAwesomeIcon icon={faXmark} style={{color: "#cc0000",}} className="size-5"/>
+                <span className="text-[#cc0000] rounded-sm font-bold"> Server error</span>
+              </div>
+              )}
+            
+            {(location.pathname=="/admin" || location.pathname=="/admin/messages") && (
+              <AdminSolidBtn label="Logout" className="w-32 rounded-lg hover:text-red-700" 
+              onClick={logout} />
+            )}
+            
+          </div>
         </div>
     </div>
   )

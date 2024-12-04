@@ -41,8 +41,6 @@ function Login() {
       const backendMsg = response.data.status || response.data.msg;
       //Conditions to show user if there is any error
       if (backendMsg==="Logged in") {
-        const jwtToken = response.data.token;
-        localStorage.setItem('token', jwtToken); //TODO: THIS NEEDS TO CHANGED TO A MORE SECURE METHOD.
         navigate("/admin")
       }
        else if (backendMsg==="Invalid input") {setFinalMsgToUser("Invalid input")}
@@ -50,8 +48,13 @@ function Login() {
             else if (backendMsg==="Invalid password") {setFinalMsgToUser("Invalid password")}
               else {setFinalMsgToUser("Server error")}
             
-    }catch{
-      setFinalMsgToUser("Server error")
+    }catch(error){
+      if(error.response?.status === 429) {
+        setFinalMsgToUser("Too many attempts")
+      }else{
+        setFinalMsgToUser("Server error")
+      }
+      
     } 
   }
 
@@ -99,6 +102,11 @@ function Login() {
                   <span className='text-white font-semibold'>Server error</span>
                 </div> 
               
+              ): finalMsgToUser==="Too many attempts" ? (
+                <div className='rounded-lg w-auto flex items-center justify-center mt-5'>
+                  <FontAwesomeIcon icon={faSquareXmark} className='size-7 mr-2' style={{color: "#ec3232",}}/>
+                  <span className='text-white font-semibold'>Too many attempts</span>
+                </div>
               ):(<></>)}
                 
             

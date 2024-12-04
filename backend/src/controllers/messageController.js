@@ -35,8 +35,6 @@ const zodSchema = z.object({
         res.status(400).json({msg: "Invalid input"})
     }
     }catch(err) {
-       console.log(err);
-       
        res.status(500).json({msg: "An error occurred while posting message."});
     }
 }
@@ -117,6 +115,5 @@ const zodSchema = z.object({
             res.json({msg: "Marked as read"})
         }catch(error){
             res.json({msg: "An error occured while updating the read status."});
-            console.log(error)
         }
     }

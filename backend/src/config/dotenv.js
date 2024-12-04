@@ -51,6 +51,8 @@ export const adminGetMessage = process.env.ADMIN_GET_MESSAGE;
 export const adminMessageCount = process.env.ADMIN_MESSAGE_COUNT;
 export const adminDeleteMessage = process.env.ADMIN_DELETE_MESSAGE;
 export const adminMarkMessageAsRead = process.env.ADMIN_MARK_MESSAGE_AS_READ;
+export const adminSignout = process.env.ADMIN_LOGOUT;
+
 
 // MESSAGES ENDPOINTS
 export const messageSubmit = process.env.MESSAGE_SUBMIT;
