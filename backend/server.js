@@ -1,13 +1,21 @@
 import express from "express";
 import cookieParser from 'cookie-parser';
 import { mainRouter } from "./src/routes/mainRouter.js";
-import { serverPort } from "./src/config/dotenv.js";
+import { serverPort, frontendUrl } from "./src/config/dotenv.js";
+import cors from "cors";
 
 const app=express();
 const port=serverPort;
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(cors({
+    origin: frontendUrl,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['datasourcekey', 'id', 'numberOfData', 'topic', 'getall'],
+    credentials: true
+}))
 
 
 app.use("/api/v1", mainRouter)

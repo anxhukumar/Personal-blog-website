@@ -11,6 +11,7 @@ export const dataSourceKey=process.env.DATA_SOURCE_KEY;
 
 // ------------------------------------------------------------------------------------------------------------------------------
  
+export const frontendUrl = process.env.FRONTEND_URL;
 
 // MAINROUTER ENDPOINTS
 export const mailList = process.env.MAILING_LIST;
