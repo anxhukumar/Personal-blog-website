@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: frontendUrl,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['datasourcekey', 'id', 'numberOfData', 'topic', 'getall'],
+    allowedHeaders: ['datasourcekey', 'id', 'numberOfData', 'topic', 'getall', 'Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     credentials: true
 }))
 
