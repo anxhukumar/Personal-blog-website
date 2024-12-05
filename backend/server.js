@@ -7,6 +7,8 @@ import cors from "cors";
 const app=express();
 const port=serverPort;
 
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(cookieParser());
 
