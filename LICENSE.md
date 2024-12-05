@@ -1,18 +1,22 @@
-# Personal Use License
+# 📜 Personal Use License  
 
-Copyright (c) 2024 Anshu Kumar
+**Copyright (c) 2024 Anshu Kumar**  
 
-This codebase is made public solely for portfolio demonstration purposes. All rights are reserved, with the following restrictions:
+This codebase is publicly available **exclusively** for portfolio demonstration purposes. All rights are reserved, and the following restrictions apply:  
 
-1. **Prohibited Actions**:
-   - Commercial use
-   - Distribution
-   - Modification
-   - Creation of derivative works
-   - Copying portions of the code or design elements
+## 🚫 **Prohibited Actions**  
+You may **not**:  
+- 💼 Use the code for commercial purposes.  
+- 📤 Distribute any part of the codebase.  
+- ✍️ Modify or alter the code.  
+- 🔄 Create derivative works based on this project.  
+- 📋 Copy any portions of the code or design elements.  
 
-2. **Attribution**: The code and design may not be used, copied, or reproduced without explicit written permission from Anshu Kumar.
+## 📝 **Attribution**  
+The codebase and design **must not** be used, copied, or reproduced without explicit, written permission from Anshu Kumar.  
 
-This project serves as a demonstration of technical skills and is not intended for reuse or reproduction.
+## 🎯 **Purpose**  
+This project is strictly intended to serve as a demonstration of technical skills and **is not for reuse or reproduction**.  
 
-For inquiries, please reach out via LinkedIn at [linkedin.com/in/anshu-kumar](https://linkedin.com/in/anxhukumar)
+For inquiries or permissions, please connect via LinkedIn:  
+🔗 [linkedin.com/in/anshu-kumar](https://linkedin.com/in/anxhukumar)  
