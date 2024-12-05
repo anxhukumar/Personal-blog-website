@@ -17,6 +17,7 @@ export const adminLogin = async (req, res) => {
         const token=jwtToken(userName);
         res.cookie('token', `Bearer ${token}`, {
             httpOnly: true,            // Prevents JavaScript from accessing the cookie
+            secure: true,               //only applicable for https servers
             sameSite: 'Strict',        // Prevents the cookie from being sent in cross-site requests
             path: '/',                 // Cookie is accessible across the entire domain
             maxAge: 86400 * 1000,             // Max age of 1 day in seconds (alternative to expires)
