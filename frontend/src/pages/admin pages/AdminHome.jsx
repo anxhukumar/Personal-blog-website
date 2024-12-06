@@ -28,7 +28,8 @@ function AdminHome() {
           headers: {
             "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
             "getall": true 
-          }
+          },
+          withCredentials: true
         });
         setBlogSnippet(response.data)
       }catch{

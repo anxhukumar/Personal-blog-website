@@ -37,7 +37,9 @@ function Login() {
     e.preventDefault();
 
     try{
-      const response = await axios.post(conf.FRONTEND_ADMIN_LOGIN_URL, loginData);
+      const response = await axios.post(conf.FRONTEND_ADMIN_LOGIN_URL, loginData, {
+        withCredentials: true
+      });
       const backendMsg = response.data.status || response.data.msg;
       //Conditions to show user if there is any error
       if (backendMsg==="Logged in") {
