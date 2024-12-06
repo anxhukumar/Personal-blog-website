@@ -189,7 +189,7 @@ export const totalTechBlogCount = async (req, res) => {
         if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
         
         const topic = req.headers.topic;
-        const criteria = topic ? ({category: "Tech", "tags.0": topic}):({category: "Tech"});
+        const criteria = topic ? ({category: "Tech", "tags.0": topic, isPublished: true}):({category: "Tech", isPublished: true});
         const response = await blogData.find(criteria).countDocuments();
     
         res.json({totalBlogCount: response});
@@ -206,7 +206,7 @@ export const totalLifeBlogCount =  async (req, res) => {
         if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
         
         const topic = req.headers.topic;
-        const criteria = topic ? ({category: "Life", "tags.0": topic}):({category: "Life"});
+        const criteria = topic ? ({category: "Life", "tags.0": topic, isPublished: true}):({category: "Life", isPublished: true});
         const response = await blogData.find(criteria).countDocuments();
     
         res.json({totalBlogCount: response});
