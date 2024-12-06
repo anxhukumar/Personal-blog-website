@@ -89,6 +89,56 @@ export const getLifeBlogSnippet = async(req, res) => {
 }
 }
 
+//unpublished + published
+export const getAllTechBlogSnippet = async(req, res) => {
+    try{
+    
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+   const limit = parseInt(req.headers.numberofdata);
+   const topic = req.headers.topic;
+   const getAll= req.headers.getall;
+   const criteria = topic ? ({category: "Tech", "tags.0": topic}):({category: "Tech"})
+   let response= await blogData.find(criteria).select('title overview datePublished isPublished category').skip(getAll ? (0):(limit-10)).limit(getAll ? (0):(10));
+    response = response.map(blog => {
+        const formattedDate = convertDateFormat(blog.datePublished);
+        return {
+            ...blog.toObject(),
+            formattedDate
+        }
+    });
+    res.json(response);
+}catch(err) {
+    res.status(500).json({error: "An error occurred while getting blog data."});
+}
+} 
+
+//unpublished + published
+export const getAllLifeBlogSnippet = async(req, res) => {
+    try{
+        
+    const authKey = req.headers.datasourcekey;
+    if (authKey != dataSourceKey) {return res.json({msg: "Data being requested from unauthorized source"})}
+    
+    const limit = parseInt(req.headers.numberofdata);
+    const topic = req.headers.topic;
+    const getAll= req.headers.getall;
+    const criteria = topic ? ({category: "Life", "tags.0": topic}):({category: "Life"})
+    let response= await blogData.find(criteria).select('title overview datePublished isPublished category').skip(getAll ? (0):(limit-10)).limit(getAll ? (0):(10));
+    response = response.map(blog => {
+        const formattedDate = convertDateFormat(blog.datePublished);
+        return {
+            ...blog.toObject(),
+            formattedDate
+        }
+    });                                     
+    res.json(response);
+}catch(err) {
+    res.status(500).json({error: "An error occurred while getting blog data."});
+}
+}
+
 //get published and unpublished blogs (both) by id
 export const getBlogById = async(req, res) => {
     try{

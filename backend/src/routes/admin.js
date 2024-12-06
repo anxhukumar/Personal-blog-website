@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { postBlog } from "../controllers/blogController.js"
+import { postBlog, getAllTechBlogSnippet, getAllLifeBlogSnippet } from "../controllers/blogController.js"
 import { adminRegister } from "../controllers/adminController.js";
 import { adminLogin, checkIfLoggedIn, tokenVerification, adminLogout } from "../middlewares/loginVerification.js";
 import { getBlogById, updateBlog, deleteBlog } from "../controllers/blogController.js";
@@ -7,7 +7,7 @@ import { getMessageById, countIfRead, messagePreview, deleteMsg, updateReadValue
 import { searchAnyBlog } from "../controllers/searchController.js";
 import { adminSignup, adminVerifyToken, adminSignin, adminCreateBlog, adminGetBlog, adminUpdateBlog, adminDeleteBlog, adminSearchBlogs,
          adminGetBlogById, adminGetMessagePreview, adminGetMessage, adminMessageCount, adminDeleteMessage, adminMarkMessageAsRead, 
-         adminSignout} 
+         adminSignout, adminGetAllTechSnippets, adminGetAllLifeSnippets} 
          from "../config/dotenv.js";
 import { rateLimiter } from "../middlewares/rateLimiter.js";
 
@@ -25,6 +25,8 @@ admin.delete(adminDeleteBlog, checkIfLoggedIn, deleteBlog) //delete a blog
 admin.get(adminSearchBlogs, checkIfLoggedIn, searchAnyBlog) //searches for the blog titles
 admin.get(adminGetBlogById, checkIfLoggedIn, getBlogById) //get published or unpublished specific blog with id
 admin.get(adminSignout, checkIfLoggedIn, adminLogout) //log out
+admin.get(adminGetAllTechSnippets, checkIfLoggedIn, getAllTechBlogSnippet) //get unpublished and published blog snippets
+admin.get(adminGetAllLifeSnippets, checkIfLoggedIn, getAllLifeBlogSnippet) //get unpublished and published blog snippets
 
 admin.get(adminGetMessagePreview, checkIfLoggedIn, messagePreview ) //get the few lines of all the messages
 admin.get(adminGetMessage, checkIfLoggedIn, getMessageById) //get the full data of messages with the id

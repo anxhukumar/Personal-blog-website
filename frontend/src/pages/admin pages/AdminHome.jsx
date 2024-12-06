@@ -24,7 +24,7 @@ function AdminHome() {
       setSnippetIsLoading(true)
       setBlogSnippetError(false)
       try{
-        const response = await axios.get(blogCategory==="TECH" ? (conf.FRONTEND_TECH_BLOG_HOME_URL) : (conf.FRONTEND_LIFE_BLOG_HOME_URL), {
+        const response = await axios.get(blogCategory==="TECH" ? (conf.FRONTEND_GET_ALL_TECH_SNIPPETS_URL) : (conf.FRONTEND_GET_ALL_LIFE_SNIPPETS_URL), {
           headers: {
             "datasourcekey": `${conf.DATA_SOURCE_KEY}`,
             "getall": true 
