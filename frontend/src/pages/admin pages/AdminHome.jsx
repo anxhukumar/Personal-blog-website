@@ -39,7 +39,7 @@ function AdminHome() {
       }
     }
     blogSnippet();
-  }, [blogCategory])
+  }, [blogCategory, toggleSidebar])
 
   const getFullBlog = async(id) => {
     try{
