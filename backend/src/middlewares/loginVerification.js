@@ -80,9 +80,10 @@ export const tokenVerification = async(req, res) => {
 export const adminLogout = async(req, res) => {
     try{
         res.clearCookie('token', {
-            httpOnly: true,            
-            sameSite: 'Strict',        
-            path: '/',                             
+            httpOnly: true,            // Prevents JavaScript from accessing the cookie
+            secure: true,               //only applicable for https servers
+            sameSite: 'None',        // Prevents the cookie from being sent in cross-site requests
+            path: '/',                 // Cookie is accessible across the entire domain             
           });
         res.json({status:"Logged out"}); 
     }catch{
