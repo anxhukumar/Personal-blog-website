@@ -235,17 +235,6 @@ function Home() {
                     <div className='flex flex-col gap-1 mt-10'>
                         <span className={`transition duration-700 font-bold ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
                         
-                        {/* Show a loader while server is mounting, TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY */}
-                        {isServerMounting && (
-                                <div className="mt-20 md:mt-40 flex items-center justify-center">
-                                    <div>
-                                        <FontAwesomeIcon className={`w-6 h-6 md:w-10 md:h-10`} icon={faSpinner}  style={{color: "#ffffff",}} spin />
-                                        <span className={`text-xl md:text-3xl text-white font-bold`}>Waking up server<span className='animate-pulse'>...</span></span>
-                                    </div>
-                                </div>
-                                    )
-                                }
-                        
                         <ol className='text-white'>
                             
                         {topics.map((data) => (
@@ -282,6 +271,18 @@ function Home() {
                         </div>
                     ):(
                         <>
+                        {/* Show a loader while server is mounting, TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY */}
+                        {isServerMounting && (
+                                <div className="flex items-center justify-center">
+                                    <div>
+                                        <FontAwesomeIcon className={`w-6 h-6 md:w-10 md:h-10`} icon={faSpinner}  style={{color: "#ffffff",}} spin />
+                                        <span className={`text-xl md:text-3xl text-white font-bold`}>Initializing the server<span className='animate-pulse'>...</span></span>
+                                    </div>
+                                </div>
+                                    )
+                                }
+                        
+                        
                             {snippet.map((data) => (
                                 data.isPublished && (
                                     <HomeBlogSnippet link={`/blog/${data.category.toLowerCase()}/${data._id}`} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
@@ -345,17 +346,6 @@ function Home() {
                                             <div className='flex gap-2 items-center mt-10 w-72'>
                                                 <span className={`transition duration-700 font-bold ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics:</span>
                                                 
-                                                {/* Show a loader while server is mounting, TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY */}
-                                                {isServerMounting && (
-                                                        <div className="mt-20 md:mt-40 flex items-center justify-center">
-                                                            <div>
-                                                                <FontAwesomeIcon className={`w-6 h-6 md:w-10 md:h-10`} icon={faSpinner}  style={{color: "#ffffff",}} spin />
-                                                                <span className={`text-xl md:text-3xl text-white font-bold`}>Waking up server<span className='animate-pulse'>...</span></span>
-                                                            </div>
-                                                        </div>
-                                                            )
-                                                        }
-                                                
                                                 <ol className='text-white flex gap-2 flex-wrap'>
                                                     
                                                     {topics.map((data) => (
@@ -396,6 +386,17 @@ function Home() {
                         </div>
                     ):(
                         <>
+                        {/* Show a loader while server is mounting, TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY */}
+                        {isServerMounting && (
+                                <div className="flex items-center justify-center">
+                                    <div>
+                                        <FontAwesomeIcon className={`w-6 h-6 md:w-10 md:h-10`} icon={faSpinner}  style={{color: "#ffffff",}} spin />
+                                        <span className={`text-xl md:text-3xl text-white font-bold`}>Initializing the server<span className='animate-pulse'>...</span></span>
+                                    </div>
+                                </div>
+                                    )
+                                }
+                            
                             {snippet.map((data) => (
                                 data.isPublished && (
                                     <HomeBlogSnippet link={`/blog/${data.category.toLowerCase()}/${data._id}`} key={data._id} title={data.title} overview={data.overview} datePublished={data.formattedDate}/>
