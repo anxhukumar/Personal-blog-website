@@ -85,13 +85,13 @@ function MainHeader() {
   }
 
   return (
-    <div className='flex justify-between mx-32 pt-4 pb-4 border-b-2 border-[#D9D9D9]'>
+    <div className='flex gap-4 lg:justify-between lg:flex-row lg:gap-0 flex-col items-center mx-32 pt-4 pb-4 border-b-2  border-[#D9D9D9]'>
         
         <Link to='/'>
           <Logo className={currentMode == "tech" ? "text-[#1C5CFF] " : "text-[#8C1936]"} />
         </Link>
         
-        <div className='flex'>
+        <div className='flex flex-col items-center justify-center gap-4 lg:flex-row lg:gap-0'>
           
           {isBlogPage ? (
             <FixedModeSwitch />
@@ -106,14 +106,14 @@ function MainHeader() {
 
           {emailInputBox==true ? (
             
-            <div className='flex gap-0'>
+            <div className='flex gap-0 md:flex-row md:items-stretch items-center flex-col'>
               
-              <span className='text-red-400 font-semibold hover:underline mr-4 mt-2 cursor-pointer'
+              <span className='text-red-400 font-semibold hover:underline mr-4 mt-2 sm:text-wrap text-base cursor-pointer'
                onClick={() => setEmailInputBox(false)}>Cancel</span>
               
               <form onSubmit={handleEmailSubmit}>
                 <input value={emailData.email} onChange={handleChange} type='email' placeholder='Email'
-                className='transition h-9 p-1 rounded-l-sm focus:outline-none focus:border-gray-400 font-input' />
+                className='transition h-9 p-1 w-52 md:w-auto rounded-t-sm sm:rounded-none sm:rounded-l-sm focus:outline-none focus:border-gray-400 font-input' />
                
                <SolidBtn
                 type="submit"
@@ -127,7 +127,7 @@ function MainHeader() {
                     />
                 }
                 className={`${currentMode === "tech" ? "bg-[#1C5CFF] hover:bg-[#164ACC]" : "bg-[#8C1936] hover:bg-[#701527]"} 
-                  transition duration-700 ease-in-out transform hover:scale-95 rounded-l-none`}
+                 transition duration-700 ease-in-out transform hover:scale-95 rounded-l-none w-52 rounded-none rounded-b-sm sm:rounded-md sm:w-32`}
               />
               {emailErrorMessage==="Server error" && (
                   <div className='flex justify-center items-center gap-2 w-fit ml-24'>
