@@ -127,7 +127,7 @@ function MainHeader() {
                     />
                 }
                 className={`${currentMode === "tech" ? "bg-[#1C5CFF] hover:bg-[#164ACC]" : "bg-[#8C1936] hover:bg-[#701527]"} 
-                 transition duration-700 ease-in-out transform hover:scale-95 rounded-l-none w-52 rounded-none rounded-b-sm sm:rounded-md sm:w-32`}
+                 transition duration-700 ease-in-out transform hover:scale-95 rounded-l-none w-52 rounded-none rounded-b-sm sm:rounded-r-md sm:w-32`}
               />
               {emailErrorMessage==="Server error" && (
                   <div className='flex justify-center items-center gap-2 w-fit ml-24'>

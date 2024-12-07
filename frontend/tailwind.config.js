@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: { screens: {
       'lg': '1140px',
+      'md': '980px'
       },
       fontFamily: {
         content: ['Inter', '-apple-system', 'system-ui', 'BlinkMacSystemFont'],
