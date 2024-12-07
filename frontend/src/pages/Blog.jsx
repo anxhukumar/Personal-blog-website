@@ -53,43 +53,44 @@ function Blog() {
     }, [category]);
    
     return (
-   
-        <div className='flex flex-col min-h-screen mt-20 mx-32'>
-            
-           {error ? (
-            <div className='flex justify-center items-center gap-2 w-fit mt-40 ml-[500px]'>
-                <FontAwesomeIcon icon={faSquareXmark} className='size-10' style={{color: "#ec3232",}}/>
-                <h1 className='text-red-700 font-bold text-4xl'>Server Error</h1>
-            </div>
-           ): isLoading ? (
-            <Loading className="mt-40 flex items-center justify-center" textClassName="text-4xl text-white font-bold" spinnerClassName="size-10" />
-           ):(
-            <>
-             <div className={`mx-40`}>
-                <h1 className='text-white font-headline font-extrabold text-4xl mb-10'>
-                    {blogData.title}
-                </h1>
-            </div>
+        <div className='flex flex-col min-h-screen w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-32 mt-16 md:mt-20'>
+            {error ? (
+                <div className='flex justify-center items-center gap-2 w-full mt-20 md:mt-40'> 
+                    <FontAwesomeIcon icon={faSquareXmark} className='w-6 h-6 md:w-10 md:h-10' style={{color: "#ec3232"}}/>
+                    <h1 className='text-red-700 font-bold text-xl md:text-3xl'>Server Error</h1>
+                </div>
+            ) : isLoading ? (
+                <div className="mt-20 md:mt-40 flex items-center justify-center">
+                    <Loading 
+                        textClassName="text-xl md:text-3xl text-white font-bold" 
+                        spinnerClassName="w-6 h-6 md:w-10 md:h-10"
+                    />
+                </div>
+            ) : (
+                <>
+                    <div className='w-full max-w-4xl mx-auto'>
+                        <h1 className='text-white font-headline font-extrabold text-xl md:text-3xl mb-6 md:mb-10'>
+                            {blogData.title}
+                        </h1>
+                    </div>
 
-            <div className={`mx-40 py-3 text-sm text-gray-400 mb-8 space-y-1 border-y-4 ${currentMode=="tech" ? "border-[#1C5CFF]" : "border-[#8C1936]" }`}>
-                <p className="font-headline font-bold ">{blogData.formattedDate}</p>
-                <p className="font-headline font-bold ">{blogData.readingTime}</p>
-            </div>
+                    <div className={`w-full max-w-4xl mx-auto py-2 md:py-3 text-xs md:text-sm text-gray-400 mb-6 md:mb-8 space-y-1 border-y-2 md:border-y-4 ${
+                        currentMode === "tech" ? "border-[#1C5CFF]" : "border-[#8C1936]"
+                    }`}>
+                        <p className="font-headline font-bold">{blogData.formattedDate}</p>
+                        <p className="font-headline font-bold">{blogData.readingTime}</p>
+                    </div>
             
-            {/* CONTAINER OF SANITIZED HTML CONTENT */}
-                <div className='mx-40 mb-20'>
-                        
+                    <div className='w-full max-w-4xl mx-auto mb-12 md:mb-20'>
                         <div
-                            className='text-[#EEEEEE] text-lg font-content' 
+                            className='text-[#EEEEEE] text-base md:text-lg font-content prose prose-invert max-w-none'
                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(blogData.mainContent)}}
                         />
-                </div>
-            </>
+                    </div>
+                </>
             )}
-        
         </div>
-    
-  )
+    )
 }
 
 export default Blog
