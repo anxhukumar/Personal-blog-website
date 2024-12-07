@@ -48,8 +48,8 @@ A modern, secure personal blogging platform built with the MERN stack, featuring
 - ⭐ FontAwesome icons  
 
 ## 🌐 Live Demo  
-[Visit the main site](https://personal-blog-website-nine.vercel.app)
-[Visit the admin site](https://personal-blog-website-nine.vercel.app/admin/login) 
+- [Visit the main site](https://personal-blog-website-nine.vercel.app)
+- [Visit the admin site](https://personal-blog-website-nine.vercel.app/admin/login) 
 
 ## 📜 License  
 This project is under a custom Personal Use License - see the [LICENSE.md](LICENSE.md) file for details.  
