@@ -12,7 +12,7 @@ function HomeBlogSnippet({title, overview, datePublished, link}) {
     <div className='w-3/4 mb-16 flex flex-col gap-4 animate-fade-in-up'>
         
         <Link to={link}>
-          <h1 className='text-white font-headline font-bold text-xl md:text-2xl hover:underline cursor-pointer'>{title}</h1>
+          <span className='text-white font-headline font-bold text-xl md:text-2xl hover:underline cursor-pointer'>{title}</span>
         </Link>
         
         <p className='text-[#C9C9C9] text-sm font-headline'>{overview}</p>
