@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { GradientBtn, HomeBlogSnippet, MessageForm, SearchBar } from '../components'
+import { GradientBtn, HomeBlogSnippet, MessageForm, SearchBar} from '../components'
 import { useSelector } from 'react-redux'
 import axios from "axios"
 import conf from "../conf/conf"
@@ -38,6 +38,9 @@ function Home() {
 
     //Const to store the debounced value
     const debouncedInput = useDebounce(searchInput, 900);
+
+    const [isServerMounting, setIsServerMounting] = useState(false);
+    // TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY
     
     useEffect(() => {
         setSnippet([]);
@@ -50,6 +53,8 @@ function Home() {
 
         const blogSnippetData = async() => {
             try{
+            setIsServerMounting(true);
+            // TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY
             const [snippetResponse, countResponse] = await Promise.all([ 
             axios.get(currentMode==="tech" ? (conf.FRONTEND_TECH_BLOG_HOME_URL):(conf.FRONTEND_LIFE_BLOG_HOME_URL), {
                 headers: {
@@ -67,6 +72,9 @@ function Home() {
             setTotalCount(countResponse.data.totalBlogCount)
             }catch{
                 setSnippetError(true)
+            }finally{
+                setIsServerMounting(false); 
+                // TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY
             }
         }
         blogSnippetData();
@@ -226,6 +234,18 @@ function Home() {
                     
                     <div className='flex flex-col gap-1 mt-10'>
                         <span className={`transition duration-700 font-bold ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics</span>
+                        
+                        {/* Show a loader while server is mounting, TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY */}
+                        {isServerMounting && (
+                                <div className="mt-20 md:mt-40 flex items-center justify-center">
+                                    <div>
+                                        <FontAwesomeIcon className={`w-6 h-6 md:w-10 md:h-10`} icon={faSpinner}  style={{color: "#ffffff",}} spin />
+                                        <span className={`text-xl md:text-3xl text-white font-bold`}>Waking up server<span className='animate-pulse'>...</span></span>
+                                    </div>
+                                </div>
+                                    )
+                                }
+                        
                         <ol className='text-white'>
                             
                         {topics.map((data) => (
@@ -324,6 +344,18 @@ function Home() {
 
                                             <div className='flex gap-2 items-center mt-10 w-72'>
                                                 <span className={`transition duration-700 font-bold ${currentMode=="tech" ? "text-[#1C5CFF]" : "text-[#8C1936]"}`}>Topics:</span>
+                                                
+                                                {/* Show a loader while server is mounting, TODO: TO BE REMOVED WHEN DEPLOYED COMPLETELY */}
+                                                {isServerMounting && (
+                                                        <div className="mt-20 md:mt-40 flex items-center justify-center">
+                                                            <div>
+                                                                <FontAwesomeIcon className={`w-6 h-6 md:w-10 md:h-10`} icon={faSpinner}  style={{color: "#ffffff",}} spin />
+                                                                <span className={`text-xl md:text-3xl text-white font-bold`}>Waking up server<span className='animate-pulse'>...</span></span>
+                                                            </div>
+                                                        </div>
+                                                            )
+                                                        }
+                                                
                                                 <ol className='text-white flex gap-2 flex-wrap'>
                                                     
                                                     {topics.map((data) => (
