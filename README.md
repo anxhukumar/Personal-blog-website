@@ -4,48 +4,48 @@ A modern, secure personal blogging platform built with the MERN stack, featuring
 ## ✨ Features  
 
 ### 🌟 Reader Experience  
-- 🛠️ Dual content modes (Tech/Life) with seamless switching  
-- 🔍 Advanced blog search functionality  
-- ⏳ Automated reading time calculation  
-- 🗂️ Topic-based content filtering  
-- 📨 Newsletter subscription  
-- ✉️ Direct messaging to admin  
+- Dual content modes (Tech/Life) with seamless switching  
+- Advanced blog search functionality  
+- Automated reading time calculation  
+- Topic-based content filtering  
+- Newsletter subscription  
+- Direct messaging to admin  
 
 ### 🔑 Admin Dashboard  
-- 🖋️ Rich text editing with Quill Editor  
-- 📋 Blog management (create, update, publish/unpublish, delete)  
-- 🔔 Message notification system  
-- 🟡 Unread message highlighting  
-- 🗂️ Message management system  
+- Rich text editing with Quill Editor  
+- Blog management (create, update, publish/unpublish, delete)  
+- Message notification system  
+- Unread message highlighting  
+- Message management system  
 
 ### 🛡️ Security Features  
-- 🔒 Secure authentication system with JWT  
-- 🍪 HTTP-only JWT cookies  
-- 🧂 Hashing and multiple-round password salting  
-- 🛡️ XSS protection with DOMPurify  
-- 🚦 Rate limiting for critical operations  
-- 🛠️ Secure admin registration system  
-- ⏳ Auto-logout after 24 hours  
-- 🛑 Backend route protection  
+- Secure authentication system with JWT  
+- HTTP-only JWT cookies  
+- Hashing and multiple-round password salting  
+- XSS protection with DOMPurify  
+- Rate limiting for critical operations  
+- Secure admin registration system  
+- Auto-logout after 24 hours  
+- Backend route protection  
 
 ## 🛠️ Technology Stack  
 
 ### 🔧 Backend  
-- 🏗️ Express.js  
-- 🗄️ MongoDB  
-- 🔑 JWT for authentication  
-- 🧂 Bcrypt for password hashing  
-- 🛡️ DOMPurify for content sanitization  
-- 📏 Zod for validation  
-- 🚦 Express Rate Limit  
+- Express.js  
+- MongoDB  
+- JWT for authentication  
+- Bcrypt for password hashing  
+- DOMPurify for content sanitization  
+- Zod for validation  
+- Express Rate Limit  
 
 ### 🎨 Frontend  
-- ⚛️ React 18  
-- 🛠️ Redux Toolkit for state management  
-- 🚏 React Router v6  
-- ✍️ React Quill  
-- 📡 Axios  
-- ⭐ FontAwesome icons  
+- React  
+- Redux Toolkit for state management  
+- React Router v6  
+- React Quill  
+- Axios  
+- FontAwesome icons  
 
 ## 🌐 Live Demo  
 - [Visit the main site](https://personal-blog-website-nine.vercel.app)
