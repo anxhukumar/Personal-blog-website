@@ -23,7 +23,7 @@ A modern, secure personal blogging platform built with the MERN stack, featuring
 - HTTP-only JWT cookies  
 - Hashing and multiple-round password salting  
 - XSS protection with DOMPurify  
-- Rate limiting for critical operations  
+- Rate limiting  
 - Secure admin registration system  
 - Auto-logout after 24 hours  
 - Backend route protection  
