@@ -6,6 +6,6 @@ import { messageSubmit } from "../config/dotenv.js";
 
 export const messages = Router();
 
-const messageRateLimiter = rateLimiter(60, 10)
+const messageRateLimiter = rateLimiter(60, 2)
 
 messages.post(messageSubmit, messageRateLimiter, postMessage);
