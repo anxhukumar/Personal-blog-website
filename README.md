@@ -1,9 +1,9 @@
-#Blog Application 
+# Blog Application 
 A modern, secure personal blogging platform built with the MERN stack, featuring dual content modes, rich text editing, and robust admin capabilities. This platform serves as a personal blog with robust security and performance features.  
 
-##Features  
+## Features  
 
-###Reader Experience  
+### Reader Experience  
 - Dual content modes (Tech/Life) with seamless switching  
 - Advanced blog search functionality  
 - Automated reading time calculation  
@@ -11,14 +11,14 @@ A modern, secure personal blogging platform built with the MERN stack, featuring
 - Newsletter subscription  
 - Direct messaging to admin  
 
-###Admin Dashboard  
+### Admin Dashboard  
 - Rich text editing with Quill Editor  
 - Blog management (create, update, publish/unpublish, delete)  
 - Message notification system  
 - Unread message highlighting  
 - Message management system  
 
-###Security Features  
+### Security Features  
 - Secure authentication system with JWT  
 - HTTP-only JWT cookies  
 - Hashing and multiple-round password salting  
@@ -28,9 +28,9 @@ A modern, secure personal blogging platform built with the MERN stack, featuring
 - Auto-logout after 24 hours  
 - Backend route protection  
 
-##Technology Stack  
+## Technology Stack  
 
-###Backend  
+### Backend  
 - Express.js  
 - MongoDB  
 - JWT for authentication  
@@ -39,7 +39,7 @@ A modern, secure personal blogging platform built with the MERN stack, featuring
 - Zod for validation  
 - Express Rate Limit  
 
-###Frontend  
+### Frontend  
 - React  
 - Redux Toolkit for state management  
 - React Router v6  
